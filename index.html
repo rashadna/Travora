@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Travora — Your World, Your Way</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <style>
 :root{--navy:#080e1a;--deep:#0e1521;--mid:#1a4fa0;--accent:#3b82f6;--bright:#60a5fa;--white:#fff;--gray:#6b7fa3;--light:#a8bdd4}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -88,7 +91,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 28px;display:fl
 @media(min-width:600px){.cat-grid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:900px){.cat-grid{grid-template-columns:repeat(4,1fr)}}
 .cat-card{position:relative;border-radius:20px;overflow:hidden;cursor:pointer;aspect-ratio:1/1;width:100%;max-width:100%;transition:transform 0.35s cubic-bezier(.25,.8,.25,1),box-shadow 0.35s}
-.cat-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 24px 50px rgba(0,0,0,0.5)}
+.cat-card:hover{box-shadow:0 24px 50px rgba(0,0,0,0.5)}
 .cat-card.wide{grid-column:span 2;aspect-ratio:2/1}
 .cat-card.ai-card{border:2px solid rgba(109,40,217,0.4)}
 .cat-card.nightlife-card{border:2px solid rgba(244,63,94,0.35)}
@@ -525,7 +528,6 @@ nav{
   transition:transform .48s cubic-bezier(.2,.75,.2,1),box-shadow .48s cubic-bezier(.2,.75,.2,1),border-color .3s ease;
 }
 .cat-card:hover{
-  transform:translateY(-8px);
   border-color:rgba(240,180,41,0.58);
   box-shadow:0 22px 60px rgba(0,0,0,0.56),0 0 0 1px rgba(240,180,41,0.26) inset;
 }
@@ -595,6 +597,24 @@ nav{
   .hero-sub{font-size:16px}
   .deals-section,.categories,.stats,.currency-section,.blogger-section{padding:72px 20px}
 }
+
+/* Premium motion (GPU-friendly) */
+.hero-bg{will-change:transform}
+.hero-word{will-change:transform,opacity;display:inline-block}
+.cat-card{transform-style:preserve-3d;perspective:1200px;will-change:transform}
+.cat-bg,.cat-overlay{will-change:transform}
+.section-title,.deals-header h2,.blogger-hero-title{will-change:clip-path}
+.social-media-card{will-change:transform,opacity}
+.stat-num{will-change:transform,opacity}
+.ai-hero-btn,.detect-btn,.wise-banner-btn,.modal-btn,.search-btn,.deal-cta,.lang-btn,.ref-copy-btn,.surprise-book-btn,.platform-btn{will-change:transform;transition:transform .35s cubic-bezier(.25,.8,.25,1),box-shadow .35s ease,color .35s ease,filter .35s ease}
+.ai-hero-btn:hover,.detect-btn:hover,.wise-banner-btn:hover,.modal-btn:hover,.search-btn:hover,.deal-cta:hover,.lang-btn:hover,.ref-copy-btn:hover,.surprise-book-btn:hover,.platform-btn:hover{
+  transform:scale(1.06) translateZ(0);
+  box-shadow:0 18px 44px rgba(0,0,0,0.45),0 0 28px rgba(240,180,41,0.22);
+  filter:brightness(1.06) saturate(1.05);
+  color:#f7e6b3;
+}
+.ai-hero-btn:hover{background:linear-gradient(135deg,#f0b429,#d89a18,#3b82f6);color:#0b1020}
+.detect-btn:hover{color:#fff;border-color:rgba(240,180,41,0.55)}
 </style>
 </head>
 <body>
@@ -2076,6 +2096,159 @@ TIP: [one local insider tip]`;
   btn.innerHTML = '🔍 Find This Location!';
 }
 
+</script>
+<script>
+(function(){
+  if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined')return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  var lenis=null;
+  if(typeof Lenis!=='undefined'){
+    lenis=new Lenis({lerp:0.08,duration:1.6});
+    lenis.on('scroll',ScrollTrigger.update);
+    function lenisRaf(t){lenis.raf(t);requestAnimationFrame(lenisRaf);}
+    requestAnimationFrame(lenisRaf);
+  }
+
+  function wrapTextNodes(el){
+    var children=[].slice.call(el.childNodes);
+    children.forEach(function(child){
+      if(child.nodeType===3){
+        var text=child.textContent;
+        if(!text||!text.trim())return;
+        var frag=document.createDocumentFragment();
+        text.split(/(\s+)/).forEach(function(seg){
+          if(!seg)return;
+          if(/^\s+$/.test(seg)){frag.appendChild(document.createTextNode(seg));return;}
+          var span=document.createElement('span');
+          span.className='hero-word';
+          span.textContent=seg;
+          frag.appendChild(span);
+        });
+        child.parentNode.replaceChild(frag,child);
+      }else if(child.nodeType===1){wrapTextNodes(child);}
+    });
+  }
+
+  function initHero(){
+    var h1=document.querySelector('.hero-copy h1');
+    if(!h1)return;
+    wrapTextNodes(h1);
+    gsap.set('.hero-word',{opacity:0,y:40,force3D:true});
+    gsap.set('.hero-sub',{opacity:0,scale:0.92,force3D:true});
+    gsap.set('.hero-cta button',{opacity:0,y:24,force3D:true});
+    var tl=gsap.timeline({defaults:{ease:'power2.out'}});
+    tl.from('.hero-word',{y:40,opacity:0,duration:0.65,stagger:0.04,force3D:true})
+      .from('.hero-sub',{opacity:0,scale:0.92,duration:0.55,force3D:true},0.2)
+      .from('.hero-cta button',{opacity:0,y:24,duration:0.55,stagger:0.08,ease:'back.out(1.35)',force3D:true},0.6);
+  }
+
+  function initHeroParallax(){
+    var hero=document.querySelector('.hero');
+    var bg=document.querySelector('.hero-bg');
+    if(!hero||!bg)return;
+    hero.addEventListener('mousemove',function(e){
+      var r=hero.getBoundingClientRect();
+      var x=(e.clientX-r.left)/r.width-0.5;
+      var y=(e.clientY-r.top)/r.height-0.5;
+      gsap.to(bg,{x:x*16,y:y*16,duration:0.55,ease:'power2.out',overwrite:'auto',force3D:true});
+    });
+    hero.addEventListener('mouseleave',function(){
+      gsap.to(bg,{x:0,y:0,duration:0.7,ease:'power2.out',force3D:true});
+    });
+  }
+
+  function initSections(){
+    gsap.utils.toArray('section:not(.hero):not(.categories)').forEach(function(sec){
+      gsap.from(sec,{scrollTrigger:{trigger:sec,start:'top 88%',once:true},y:50,opacity:0,duration:0.7,ease:'power2.out',force3D:true});
+    });
+    var wb=document.querySelector('.wise-banner');
+    if(wb)gsap.from(wb,{scrollTrigger:{trigger:wb,start:'top 92%',once:true},y:50,opacity:0,duration:0.7,ease:'power2.out',force3D:true});
+  }
+
+  function initCategoryCards(){
+    var cards=document.querySelectorAll('.categories .cat-card');
+    if(!cards.length)return;
+    gsap.set(cards,{opacity:0,scale:0.9,filter:'blur(4px)',force3D:true});
+    gsap.to(cards,{scrollTrigger:{trigger:'.cat-grid',start:'top 82%',once:true},opacity:1,scale:1,filter:'blur(0px)',duration:0.65,stagger:0.08,ease:'power2.out',force3D:true,onComplete:function(){gsap.set(cards,{clearProps:'filter'});}});
+    cards.forEach(function(card){
+      gsap.set(card,{transformPerspective:1000});
+      var rx=gsap.quickTo(card,'rotationX',{duration:0.45,ease:'power2.out'});
+      var ry=gsap.quickTo(card,'rotationY',{duration:0.45,ease:'power2.out'});
+      var ty=gsap.quickTo(card,'y',{duration:0.35,ease:'power2.out'});
+      card.addEventListener('mouseenter',function(){
+        ty(-10);
+        gsap.to(card,{duration:0.35,boxShadow:'0 22px 60px rgba(0,0,0,0.58),0 0 46px rgba(240,180,41,0.28),0 0 0 1px rgba(240,180,41,0.35) inset',borderColor:'rgba(240,180,41,0.55)',overwrite:'auto'});
+      });
+      card.addEventListener('mouseleave',function(){
+        rx(0);ry(0);ty(0);
+        gsap.to(card,{duration:0.45,boxShadow:'0 20px 55px rgba(0,0,0,0.35)',overwrite:'auto'});
+      });
+      card.addEventListener('mousemove',function(e){
+        var rect=card.getBoundingClientRect();
+        var px=(e.clientX-rect.left)/rect.width-0.5;
+        var py=(e.clientY-rect.top)/rect.height-0.5;
+        ry(px*-5);
+        rx(py*-5);
+      });
+    });
+  }
+
+  function initHeadings(){
+    gsap.utils.toArray('.section-title, .deals-header h2, .blogger-hero-title').forEach(function(el){
+      gsap.fromTo(el,
+        {clipPath:'inset(0 100% 0 0)',opacity:0.98,force3D:true},
+        {scrollTrigger:{trigger:el,start:'top 88%',once:true},clipPath:'inset(0 0% 0 0)',opacity:1,duration:1,ease:'power2.out',force3D:true}
+      );
+    });
+  }
+
+  function initStats(){
+    document.querySelectorAll('.stats .stat-num').forEach(function(el){
+      var raw=el.textContent.trim();
+      ScrollTrigger.create({
+        trigger:el,start:'top 88%',once:true,
+        onEnter:function(){
+          if(raw.indexOf('/')!==-1){
+            gsap.from(el,{opacity:0,y:22,duration:0.55,ease:'power2.out',force3D:true});
+            return;
+          }
+          var m=raw.match(/(\d+)/);
+          if(!m){
+            gsap.from(el,{opacity:0,y:22,duration:0.55,ease:'power2.out',force3D:true});
+            return;
+          }
+          var end=parseInt(m[1],10);
+          var prefix=raw.charAt(0)==='$'?'$':'';
+          var suffix=raw.indexOf('+')!==-1?'+':'';
+          var obj={v:0};
+          gsap.from(el,{opacity:0,y:22,duration:0.4,force3D:true});
+          gsap.to(obj,{v:end,duration:1.6,ease:'power2.out',onUpdate:function(){el.textContent=prefix+Math.round(obj.v)+suffix;}});
+        }
+      });
+    });
+  }
+
+  function initFooterSocial(){
+    var items=document.querySelectorAll('.social-media-grid .social-media-card');
+    if(!items.length)return;
+    gsap.from(items,{scrollTrigger:{trigger:'.social-media-grid',start:'top 90%',once:true},opacity:0,y:36,stagger:0.08,duration:0.65,ease:'power2.out',force3D:true});
+  }
+
+  function boot(){
+    initHero();
+    initHeroParallax();
+    initSections();
+    initCategoryCards();
+    initHeadings();
+    initStats();
+    initFooterSocial();
+    ScrollTrigger.refresh();
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
+  else boot();
+})();
 </script>
 </body>
 </html>
