@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travora — Your World, Your Way</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#080e1a;--deep:#0e1521;--mid:#1a4fa0;--accent:#3b82f6;--bright:#60a5fa;--white:#fff;--gray:#6b7fa3;--light:#a8bdd4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:#080e1a;color:#fff;overflow-x:hidden;min-height:100vh}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,14,26,0.8);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,0.06)}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo-text{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;background:linear-gradient(135deg,#fff,#93c5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lang-switcher{display:flex;gap:6px}
+.lang-btn{padding:6px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(255,255,255,0.5);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.lang-btn.active{background:rgba(59,130,246,0.2);border-color:rgba(59,130,246,0.5);color:#fff}
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;padding:116px 20px 78px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(100% 80% at 15% 20%,rgba(34,211,238,0.3),transparent 55%),radial-gradient(70% 80% at 78% 25%,rgba(129,140,248,0.27),transparent 55%),radial-gradient(75% 85% at 50% 100%,rgba(236,72,153,0.2),transparent 60%),linear-gradient(160deg,#060a13 0%,#0a1224 40%,#0b1020 100%)}
+.hero-bg::before{content:'';position:absolute;inset:-25%;background:conic-gradient(from 110deg at 50% 50%,rgba(34,211,238,0.16),rgba(99,102,241,0.14),rgba(236,72,153,0.12),rgba(34,211,238,0.16));filter:blur(80px);animation:auroraShift 13s ease-in-out infinite alternate}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,rgba(255,255,255,0.08),transparent 35%,transparent 65%,rgba(255,255,255,0.04))}
+.hero-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.particle{position:absolute;border-radius:50%;animation:floatUp linear infinite}
+@keyframes floatUp{0%{transform:translateY(112vh) scale(.85);opacity:0}10%{opacity:.65}90%{opacity:.28}100%{transform:translateY(-60px) scale(1.15);opacity:0}}
+@keyframes auroraShift{0%{transform:translate3d(-4%,-2%,0) rotate(0deg)}100%{transform:translate3d(4%,2%,0) rotate(12deg)}}
+.hero-content{position:relative;z-index:1;width:min(1120px,100%);display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+.hero-copy{text-align:left}
+.hero-kicker{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.07);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.86);margin-bottom:20px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(42px,6.8vw,80px);font-weight:900;line-height:1.05;letter-spacing:-1.8px;margin-bottom:18px}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,#c4b5fd,#67e8f9 52%,#fbcfe8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:17px;color:rgba(255,255,255,0.74);max-width:520px;line-height:1.75;margin-bottom:26px;font-weight:300}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.ai-hero-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 30px;background:linear-gradient(135deg,#7c3aed,#4f46e5,#0ea5e9);border:none;border-radius:14px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 16px 46px rgba(79,70,229,0.45)}
+.detect-btn{padding:14px 24px;background:rgba(255,255,255,0.08);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.2);border-radius:14px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.ai-badge{padding:3px 10px;background:rgba(255,255,255,0.16);border-radius:20px;font-size:11px;font-weight:700}
+.location-bar{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2);border-radius:14px;padding:11px 14px;max-width:560px}
+.location-text{flex:1;font-size:13px;color:rgba(255,255,255,0.78)}
+.hero-visual{display:flex;justify-content:center;align-items:center;position:relative;min-height:460px}
+.hero-orbit{width:min(440px,88vw);aspect-ratio:1/1;position:relative;perspective:1000px;display:flex;align-items:center;justify-content:center}
+.hero-globe{width:74%;aspect-ratio:1/1;border-radius:50%;position:relative;transform-style:preserve-3d;background:radial-gradient(circle at 34% 28%,rgba(255,255,255,0.72),rgba(103,232,249,0.22) 22%,rgba(30,64,175,0.9) 62%,rgba(15,23,42,0.98) 100%);border:1px solid rgba(255,255,255,0.28);box-shadow:0 20px 70px rgba(34,211,238,0.3),inset -34px -34px 58px rgba(2,6,23,0.56);animation:globeSpin 18s linear infinite}
+.globe-grid{position:absolute;inset:10%;border-radius:50%;border:1px solid rgba(147,197,253,0.3)}
+.globe-grid::before,.globe-grid::after{content:'';position:absolute;inset:0;border-radius:50%;border:1px solid rgba(147,197,253,0.3)}
+.globe-grid::before{transform:rotateX(68deg)}
+.globe-grid::after{transform:rotateY(68deg)}
+.hero-orbit-ring{position:absolute;inset:12%;border-radius:50%;border:1px solid rgba(125,211,252,0.55);transform-style:preserve-3d;animation:orbitRing 10s linear infinite}
+.hero-orbit-ring.alt{inset:2%;border-color:rgba(196,181,253,0.5);animation-duration:14s;animation-direction:reverse}
+.orbit-dot{position:absolute;width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#67e8f9,#a5b4fc);box-shadow:0 0 18px rgba(103,232,249,0.8);top:8%;left:50%;transform:translateX(-50%)}
+.orbit-dot.alt{background:linear-gradient(135deg,#fbcfe8,#c4b5fd);top:50%;left:auto;right:4%;transform:translateY(-50%)}
+.hero-card{position:absolute;padding:14px 16px;border-radius:16px;background:rgba(12,20,40,0.48);border:1px solid rgba(255,255,255,0.2);backdrop-filter:blur(16px);min-width:172px}
+.hero-card strong{display:block;font-size:16px;font-weight:700;margin-top:2px}
+.hero-card span{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.7)}
+.hero-card.route{top:10%;left:0}
+.hero-card.price{bottom:8%;right:2%}
+@keyframes globeSpin{from{transform:rotateY(0deg) rotateX(10deg)}to{transform:rotateY(360deg) rotateX(10deg)}}
+@keyframes orbitRing{from{transform:rotateX(72deg) rotateZ(0deg)}to{transform:rotateX(72deg) rotateZ(360deg)}}
+@media(max-width:960px){.hero-content{grid-template-columns:1fr;text-align:center}.hero-copy{text-align:center}.hero-sub{margin-left:auto;margin-right:auto}.hero-cta{justify-content:center}.location-bar{margin:0 auto}.hero-visual{min-height:390px}.hero-card.route{left:5%}.hero-card.price{right:5%}}
+.section-label{text-align:center;font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.section-title{text-align:center;font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,42px);font-weight:700;margin-bottom:40px;letter-spacing:-0.5px}
+.wise-banner{margin:24px auto 0;max-width:980px;background:linear-gradient(135deg,rgba(0,160,90,0.12),rgba(0,120,70,0.06));border:1px solid rgba(0,180,100,0.2);border-radius:20px;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;cursor:pointer;transition:all 0.2s}
+.wise-banner:hover{border-color:rgba(0,180,100,0.35)}
+.wise-banner-left{display:flex;align-items:center;gap:14px}
+.wise-banner-icon{font-size:26px}
+.wise-banner-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
+.wise-banner-sub{font-size:12px;color:rgba(255,255,255,0.5)}
+.wise-banner-btn{padding:10px 22px;background:linear-gradient(135deg,#00b064,#007d47);border:none;border-radius:12px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.deals-section{padding:70px 20px;border-top:1px solid rgba(255,255,255,0.05)}
+.deals-container{max-width:980px;margin:0 auto}
+.deals-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.deals-live{display:flex;align-items:center;gap:7px;font-size:12px;color:#34d186;font-weight:600}
+.deals-live-dot{width:7px;height:7px;border-radius:50%;background:#34d186;animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.deals-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:600px){.deals-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.deals-grid{grid-template-columns:repeat(4,1fr)}}
+.deal-card{position:relative;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:18px;overflow:hidden;cursor:pointer;transition:all 0.3s}
+.deal-card:hover{transform:translateY(-4px);border-color:rgba(59,130,246,0.25);box-shadow:0 20px 40px rgba(0,0,0,0.4)}
+.deal-badge{position:absolute;top:10px;right:10px;background:linear-gradient(135deg,#ef4444,#f87171);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;z-index:1}
+.deal-img{width:100%;height:95px;background-size:cover;background-position:center}
+.deal-body{padding:13px}
+.deal-route{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px}
+.deal-desc{font-size:11px;color:var(--gray);margin-bottom:9px}
+.deal-prices{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.deal-price-old{font-size:12px;color:var(--gray);text-decoration:line-through}
+.deal-price-new{font-size:17px;font-weight:900;color:#34d186}
+.deal-cta{display:block;padding:8px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);border:none;border-radius:10px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;width:100%}
+.categories{padding:70px 20px}
+.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:980px;margin:0 auto}
+@media(min-width:600px){.cat-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.cat-grid{grid-template-columns:repeat(4,1fr)}}
+.cat-card{position:relative;border-radius:20px;overflow:hidden;cursor:pointer;aspect-ratio:1/1;transition:transform 0.35s cubic-bezier(.25,.8,.25,1),box-shadow 0.35s}
+.cat-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 24px 50px rgba(0,0,0,0.5)}
+.cat-card.wide{grid-column:span 2;aspect-ratio:2/1}
+.cat-card.ai-card{border:2px solid rgba(109,40,217,0.4)}
+.cat-card.nightlife-card{border:2px solid rgba(244,63,94,0.35)}
+.cat-card.surprise-card{border:2px solid rgba(245,158,11,0.4)}
+.cat-card.budget-card{border:2px solid rgba(52,211,153,0.4)}
+.cat-card.buddy-card{border:2px solid rgba(34,211,238,0.4)}
+.cat-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 0.5s cubic-bezier(.25,.8,.25,1)}
+.cat-card:hover .cat-bg{transform:scale(1.08)}
+.cat-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.45) 50%,rgba(0,0,0,0.92) 100%)}
+.cat-content{position:absolute;bottom:0;left:0;right:0;padding:16px}
+.cat-icon{font-size:24px;margin-bottom:6px;display:block}
+.cat-name{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
+.cat-desc{font-size:11px;color:rgba(255,255,255,0.6)}
+.new-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700;color:#fff;margin-left:6px;vertical-align:middle}
+.ai-new-badge{background:linear-gradient(135deg,#7c3aed,#3b82f6)}
+.nightlife-new-badge{background:linear-gradient(135deg,#f43f5e,#be123c)}
+.surprise-new-badge{background:linear-gradient(135deg,#f59e0b,#d97706)}
+.budget-new-badge{background:linear-gradient(135deg,#10b981,#059669)}
+.buddy-new-badge{background:linear-gradient(135deg,#22d3ee,#0891b2)}
+.stats{padding:56px 20px;background:rgba(255,255,255,0.015);border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05)}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:620px;margin:0 auto;text-align:center}
+@media(min-width:600px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
+.stat-num{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;background:linear-gradient(135deg,#fff,#93c5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+.stat-label{font-size:12px;color:var(--gray);font-weight:500}
+.currency-section{padding:70px 20px}
+.currency-container{max-width:760px;margin:0 auto}
+.currency-widget{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:22px;margin-bottom:16px}
+.currency-row{display:flex;flex-direction:column;gap:14px}
+.currency-box label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px}
+.currency-input-row{display:flex;gap:9px}
+.currency-input-row input{flex:1;padding:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:#fff;font-size:22px;font-weight:700;font-family:'DM Sans',sans-serif;outline:none;min-width:0}
+.currency-input-row input[readonly]{color:var(--bright)}
+.currency-input-row select{padding:14px 12px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:12px;color:#fff;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer}
+.currency-input-row select option{background:#0e1521}
+.swap-btn{width:100%;padding:13px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(59,130,246,0.07);color:var(--bright);font-size:20px;cursor:pointer;margin:6px 0}
+.rate-info{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;margin-bottom:14px;font-size:13px;color:var(--light)}
+.rate-badge{padding:3px 12px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:20px;font-size:11px;font-weight:700;color:var(--accent)}
+.popular-rates{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+@media(min-width:600px){.popular-rates{grid-template-columns:repeat(3,1fr)}}
+.pop-rate{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:10px;cursor:pointer;font-size:12px;color:var(--gray);transition:all 0.2s}
+.pop-rate:hover{border-color:rgba(59,130,246,0.3);color:#fff}
+.pop-val{font-weight:700;color:var(--bright)}
+.blogger-section{padding:70px 20px;border-top:1px solid rgba(255,255,255,0.05)}
+.blogger-container{max-width:880px;margin:0 auto}
+.blogger-hero{position:relative;border-radius:24px;overflow:hidden;margin-bottom:28px;height:210px}
+.blogger-hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1000&q=80') center/cover no-repeat}
+.blogger-hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,14,26,0.9) 0%,rgba(8,14,26,0.4) 60%,transparent 100%)}
+.blogger-hero-content{position:relative;z-index:1;padding:30px 28px;height:100%;display:flex;flex-direction:column;justify-content:center}
+.blogger-hero-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.blogger-hero-sub{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:18px}
+.blogger-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:600px){.blogger-grid{grid-template-columns:repeat(3,1fr)}}
+.blogger-card{display:flex;gap:13px;padding:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:18px;transition:all 0.2s}
+.blogger-card:hover{border-color:rgba(59,130,246,0.2)}
+.blogger-avatar{width:46px;height:46px;border-radius:50%;background:rgba(59,130,246,0.12);border:2px solid rgba(59,130,246,0.25);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.blogger-name{font-size:14px;font-weight:700;margin-bottom:3px}
+.blogger-country{font-size:11px;color:var(--accent);margin-bottom:5px}
+.blogger-bio{font-size:11px;color:var(--gray);margin-bottom:9px}
+.blogger-links{display:flex;gap:6px;flex-wrap:wrap}
+.social-link{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:20px;font-size:11px;font-weight:600;text-decoration:none}
+.social-link.yt{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#f87171}
+.social-link.ig{background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.2);color:#f472b6}
+footer{padding:44px 24px 24px;border-top:1px solid rgba(255,255,255,0.05)}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:32px}
+.footer-logo{display:flex;align-items:center;gap:10px}
+.footer-logo-text{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;background:linear-gradient(135deg,#fff,#93c5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.footer-logo-sub{font-size:11px;color:var(--gray);margin-top:3px}
+.social-media-section{margin-bottom:28px}
+.social-media-title{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.social-media-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:600px){.social-media-grid{grid-template-columns:repeat(4,1fr)}}
+.social-media-card{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;text-decoration:none;transition:all 0.2s;border:1px solid rgba(255,255,255,0.07)}
+.social-media-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.15)}
+.social-media-card.instagram{background:linear-gradient(135deg,rgba(131,58,180,0.15),rgba(253,29,29,0.1));border-color:rgba(225,48,108,0.2)}
+.social-media-card.tiktok{background:rgba(0,0,0,0.35);border-color:rgba(255,255,255,0.1)}
+.social-media-card.youtube{background:rgba(220,38,38,0.1);border-color:rgba(220,38,38,0.2)}
+.social-media-card.telegram{background:rgba(0,136,204,0.12);border-color:rgba(0,136,204,0.25)}
+.social-media-logo{width:28px;height:28px;flex-shrink:0}
+.social-media-info{flex:1}
+.social-media-name{font-size:13px;font-weight:700;color:#fff;display:block;margin-bottom:2px}
+.social-media-desc{font-size:10px;color:var(--gray)}
+.social-media-follow{font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;white-space:nowrap}
+.social-media-card.instagram .social-media-follow{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff}
+.social-media-card.tiktok .social-media-follow{background:#fff;color:#000}
+.social-media-card.youtube .social-media-follow{background:#dc2626;color:#fff}
+.social-media-card.telegram .social-media-follow{background:#0088cc;color:#fff}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.05)}
+.footer-text{color:var(--gray);font-size:12px}
+.footer-links{display:flex;gap:18px}
+.footer-link{color:var(--gray);font-size:12px;text-decoration:none;transition:color 0.2s}
+.footer-link:hover{color:#fff}
+.modal-overlay{position:fixed;inset:0;background:rgba(4,8,18,0.92);backdrop-filter:blur(12px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;padding:16px}
+.modal-overlay.active{opacity:1;pointer-events:all}
+.modal{background:#0e1521;border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:32px 24px;max-width:400px;width:100%;text-align:center}
+.modal-icon{font-size:44px;margin-bottom:16px;display:block}
+.modal h3{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:10px}
+.modal p{color:var(--gray);font-size:13px;line-height:1.7;margin-bottom:24px}
+.modal-btn{width:100%;padding:14px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);border:none;border-radius:12px;color:#fff;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px}
+.modal-btn.secondary{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1)}
+.blogger-modal-inner{max-width:460px;max-height:88vh;overflow-y:auto;position:relative;text-align:left}
+.modal-close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:var(--gray);cursor:pointer;font-size:12px}
+.blogger-form{display:flex;flex-direction:column;gap:12px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group label{font-size:12px;font-weight:600;color:var(--light)}
+.form-group input,.form-group select,.form-group textarea{padding:13px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;width:100%}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(107,127,163,0.4)}
+.form-group select option{background:#0e1521}
+.form-group textarea{resize:vertical;min-height:80px}
+.yt-label{color:#f87171}.ig-label{color:#f472b6}
+.form-note{font-size:11px;color:var(--gray);font-style:italic}
+.search-modal-overlay{position:fixed;inset:0;background:rgba(4,8,18,0.94);backdrop-filter:blur(14px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;padding:16px}
+.search-modal-overlay.active{opacity:1;pointer-events:all}
+.search-modal{background:#0e1521;border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:28px 20px;max-width:520px;width:100%;position:relative;max-height:90vh;overflow-y:auto}
+.search-modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:var(--gray);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.search-modal-close:hover{background:rgba(255,255,255,0.1);color:#fff}
+.search-modal-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:6px}
+.search-modal-sub{color:var(--gray);font-size:13px;margin-bottom:20px}
+.search-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.search-tab{padding:8px 18px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--gray);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.search-tab.active{background:rgba(59,130,246,0.15);border-color:rgba(59,130,246,0.4);color:#fff}
+.search-form{display:flex;flex-direction:column;gap:12px}
+.search-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.search-field{display:flex;flex-direction:column;gap:5px}
+.search-field label{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent)}
+.search-field input,.search-field select{padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;width:100%}
+.search-field input::placeholder{color:rgba(107,127,163,0.35)}
+.search-field select option{background:#0e1521}
+.search-btn{padding:14px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:6px}
+.search-sites{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.search-site-badge{padding:4px 11px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;font-size:11px;color:var(--gray)}
+.hotel-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.hotel-type-btn{padding:9px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:var(--gray);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;transition:all 0.2s}
+.hotel-type-btn.active{background:rgba(59,130,246,0.12);border-color:rgba(59,130,246,0.35);color:#fff}
+.search-input-row{display:flex;gap:9px;margin-bottom:14px}
+.search-input-row input{flex:1;padding:13px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none}
+.search-input-row input::placeholder{color:rgba(107,127,163,0.35)}
+.search-input-row button{padding:13px 18px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.platform-list{display:flex;flex-direction:column;gap:9px}
+.platform-btn{display:flex;align-items:center;gap:14px;padding:15px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;text-decoration:none;color:#fff;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.platform-btn:hover{background:rgba(59,130,246,0.07);border-color:rgba(59,130,246,0.2)}
+.platform-icon{font-size:24px;flex-shrink:0;width:34px;text-align:center}
+.platform-info{flex:1;text-align:left}
+.platform-name{font-size:14px;font-weight:600;display:block;margin-bottom:2px}
+.platform-desc{font-size:11px;color:var(--gray)}
+.platform-arrow{color:var(--accent);font-size:17px}
+.sim-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-left:5px;background:rgba(52,211,153,0.1);color:#34d186;border:1px solid rgba(52,211,153,0.2)}
+.results-title{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.event-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}
+.event-type-btn{padding:9px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:var(--gray);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;transition:all 0.2s}
+.event-type-btn.active{background:rgba(59,130,246,0.12);border-color:rgba(59,130,246,0.35);color:#fff}
+.car-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.car-type-btn{padding:11px 6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;color:var(--gray);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;transition:all 0.2s}
+.car-type-btn.active{background:rgba(59,130,246,0.12);border-color:rgba(59,130,246,0.35);color:#fff}
+.car-type-icon{font-size:22px;display:block;margin-bottom:5px}
+.train-region-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:16px}
+.train-region-btn{padding:11px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;color:var(--gray);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;transition:all 0.2s}
+.train-region-btn.active{background:rgba(59,130,246,0.12);border-color:rgba(59,130,246,0.35);color:#fff}
+.train-region-icon{font-size:20px;display:block;margin-bottom:5px}
+.cruise-regions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.cruise-region-card{position:relative;border-radius:16px;overflow:hidden;cursor:pointer;height:95px;border:2px solid transparent;transition:all 0.2s}
+.cruise-region-card.active{border-color:var(--accent)}
+.cruise-region-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.cruise-region-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.7) 100%)}
+.cruise-region-content{position:absolute;bottom:0;left:0;right:0;padding:10px 13px}
+.cruise-region-icon{font-size:18px;display:block;margin-bottom:2px}
+.cruise-region-name{font-size:13px;font-weight:700;color:#fff}
+.cruise-info-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px;margin-bottom:14px}
+.cruise-info-title{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.cruise-ports{display:flex;flex-wrap:wrap;gap:7px}
+.cruise-port{padding:5px 13px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.18);border-radius:20px;font-size:12px;color:var(--light)}
+.cruise-how{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;margin-bottom:14px}
+.cruise-how-step{display:flex;align-items:center;gap:11px;padding:7px 0;font-size:13px;color:var(--light)}
+.cruise-how-step:not(:last-child){border-bottom:1px solid rgba(255,255,255,0.05)}
+.cruise-how-icon{font-size:18px;width:28px;text-align:center;flex-shrink:0}
+.visa-info-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px;margin-bottom:12px}
+.visa-status{display:flex;align-items:center;gap:10px;padding:13px 16px;border-radius:12px;margin-bottom:14px;font-weight:700;font-size:15px}
+.visa-status.required{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#f87171}
+.visa-status.free{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);color:#34d186}
+.visa-status.on-arrival{background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:#fbbf24}
+.visa-doc-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.visa-doc-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--light);padding:9px 13px;background:rgba(255,255,255,0.02);border-radius:9px}
+.weather-warning{background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:#fb923c}
+.weather-warning.snow{background:rgba(147,197,253,0.1);border-color:rgba(147,197,253,0.3);color:#93c5fd}
+.weather-warning.storm{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:#f87171}
+.weather-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px}
+.weather-day{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:9px 4px;text-align:center}
+.weather-day.today{border-color:rgba(59,130,246,0.4);background:rgba(59,130,246,0.08)}
+.weather-day-name{font-size:10px;font-weight:700;color:var(--bright);margin-bottom:4px;text-transform:uppercase}
+.weather-day-icon{font-size:22px;margin:5px 0;display:block}
+.weather-day-max{font-size:14px;font-weight:700}
+.weather-day-min{font-size:11px;color:var(--gray)}
+.weather-day-rain{font-size:10px;color:#93c5fd;margin-top:3px}
+.weather-summary{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;margin-bottom:14px}
+.weather-summary-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;font-size:13px;color:var(--light)}
+.weather-summary-row:not(:last-child){border-bottom:1px solid rgba(255,255,255,0.05)}
+.weather-val{font-weight:600;color:#fff}
+.weather-loading{text-align:center;padding:32px;color:var(--gray);font-size:14px}
+.ai-modal{background:linear-gradient(160deg,#0e1521,#1a0d35);border:1px solid rgba(109,40,217,0.25)}
+.ai-modal-header{background:linear-gradient(135deg,rgba(109,40,217,0.15),rgba(59,130,246,0.12));border:1px solid rgba(109,40,217,0.2);border-radius:18px;padding:20px;margin-bottom:20px;text-align:center}
+.ai-modal-icon{font-size:42px;margin-bottom:10px;display:block}
+.ai-modal-title{font-family:'Playfair Display',serif;font-size:23px;font-weight:700;margin-bottom:5px}
+.ai-modal-sub{color:var(--gray);font-size:13px}
+.traveler-types{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px}
+.traveler-type-btn{padding:13px 8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:14px;color:var(--gray);font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;transition:all 0.2s}
+.traveler-type-btn.active{background:rgba(109,40,217,0.18);border-color:rgba(109,40,217,0.5);color:#fff}
+.traveler-type-icon{font-size:24px;display:block;margin-bottom:6px}
+.ai-generate-btn{width:100%;padding:17px;background:linear-gradient(135deg,#6d28d9,#4338ca,#3b82f6);border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 20px rgba(109,40,217,0.3)}
+.ai-generate-btn:disabled{opacity:0.55;cursor:not-allowed}
+.ai-result{margin-top:20px;display:none}
+.ai-result.visible{display:block}
+.ai-loading{text-align:center;padding:44px 20px}
+.ai-loading-icon{font-size:50px;animation:spin 2s linear infinite;display:block;margin-bottom:18px}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.ai-plan-content{background:rgba(109,40,217,0.06);border:1px solid rgba(109,40,217,0.15);border-radius:18px;padding:22px;font-size:13px;color:var(--light);line-height:1.85}
+.ai-plan-content h2{font-family:'Playfair Display',serif;font-size:18px;color:#fff;margin:18px 0 9px;padding-bottom:7px;border-bottom:1px solid rgba(109,40,217,0.2)}
+.ai-plan-content h3{font-size:14px;font-weight:700;color:var(--bright);margin:13px 0 7px}
+.ai-plan-content strong{color:#fff}
+.ai-share-btns{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
+.ai-share-btn{flex:1;min-width:100px;padding:11px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:11px;color:var(--light);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center}
+.nightlife-modal{background:linear-gradient(160deg,#0e1521,#1a0818);border:1px solid rgba(244,63,94,0.2)}
+.nightlife-types{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px}
+.nightlife-type-btn{padding:14px 10px;background:rgba(255,255,255,0.03);border:1px solid rgba(244,63,94,0.12);border-radius:14px;color:var(--gray);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;transition:all 0.2s}
+.nightlife-type-btn.active{background:rgba(244,63,94,0.12);border-color:rgba(244,63,94,0.4);color:#fff}
+.nightlife-type-icon{font-size:28px;display:block;margin-bottom:7px}
+.nightlife-search-btn{width:100%;padding:14px;background:linear-gradient(135deg,#f43f5e,#be123c);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:4px}
+.surprise-modal{background:linear-gradient(160deg,#0e1521,#1a1100);border:1px solid rgba(245,158,11,0.2)}
+.surprise-moods{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:16px}
+.surprise-mood-btn{padding:13px 10px;background:rgba(255,255,255,0.03);border:1px solid rgba(245,158,11,0.12);border-radius:14px;color:var(--gray);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;transition:all 0.2s}
+.surprise-mood-btn.active{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.4);color:#fff}
+.surprise-mood-icon{font-size:28px;display:block;margin-bottom:7px}
+.surprise-btn{width:100%;padding:16px;background:linear-gradient(135deg,#f59e0b,#d97706);border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:9px;display:flex;align-items:center;justify-content:center;gap:10px}
+.surprise-btn:disabled{opacity:0.55;cursor:not-allowed}
+.surprise-result{margin-top:16px;display:none}
+.surprise-result.visible{display:block}
+.surprise-destination{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:18px;padding:22px;text-align:center;margin-bottom:14px}
+.surprise-book-btns{display:flex;flex-direction:column;gap:9px}
+.surprise-book-btn{display:flex;align-items:center;gap:10px;padding:13px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;text-decoration:none;color:#fff;font-size:13px;font-weight:600}
+.budget-modal{background:linear-gradient(160deg,#0e1521,#001810);border:1px solid rgba(52,211,153,0.2)}
+.budget-result-box{background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.15);border-radius:14px;padding:16px;margin-top:14px}
+.budget-item{display:flex;align-items:center;justify-content:space-between;padding:9px 0;font-size:13px;color:var(--light)}
+.budget-item:not(:last-child){border-bottom:1px solid rgba(52,211,153,0.08)}
+.budget-item-icon{font-size:18px;margin-right:9px}
+.budget-item-val{font-weight:700;color:#fff}
+.budget-total{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.25);border-radius:12px;margin-top:12px;font-size:16px;font-weight:700}
+.budget-total-val{color:#34d186;font-size:22px}
+.budget-calculate-btn{width:100%;padding:14px;background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:9px}
+.budget-calculate-btn:disabled{opacity:0.55;cursor:not-allowed}
+.buddy-modal{background:linear-gradient(160deg,#0e1521,#001a22);border:1px solid rgba(34,211,238,0.2)}
+.buddy-modal-header{background:linear-gradient(135deg,rgba(34,211,238,0.1),rgba(6,182,212,0.08));border:1px solid rgba(34,211,238,0.18);border-radius:18px;padding:20px;margin-bottom:18px;text-align:center}
+.buddy-types{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px}
+.buddy-type-btn{padding:11px 8px;background:rgba(255,255,255,0.03);border:1px solid rgba(34,211,238,0.12);border-radius:14px;color:var(--gray);font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;transition:all 0.2s}
+.buddy-type-btn.active{background:rgba(34,211,238,0.1);border-color:rgba(34,211,238,0.4);color:#fff}
+.buddy-type-icon{font-size:22px;display:block;margin-bottom:5px}
+.buddy-search-btn{width:100%;padding:14px;background:linear-gradient(135deg,#22d3ee,#0891b2);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:9px}
+.buddy-search-btn:disabled{opacity:0.55;cursor:not-allowed}
+.buddy-result{margin-top:16px}
+.buddy-card{background:rgba(34,211,238,0.05);border:1px solid rgba(34,211,238,0.15);border-radius:16px;padding:16px;margin-bottom:10px}
+.buddy-card-header{display:flex;align-items:center;gap:13px;margin-bottom:11px}
+.buddy-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#22d3ee,#0891b2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.buddy-name{font-size:15px;font-weight:700;margin-bottom:2px}
+.buddy-meta{font-size:11px;color:var(--gray)}
+.buddy-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:11px}
+.buddy-tag{padding:3px 11px;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.18);border-radius:20px;font-size:11px;color:#22d3ee}
+.buddy-contact-btns{display:flex;gap:9px}
+.buddy-contact-btn{flex:1;padding:10px;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center}
+.buddy-contact-btn.whatsapp{background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.25);color:#25d166}
+.buddy-contact-btn.telegram{background:rgba(0,136,204,0.12);border:1px solid rgba(0,136,204,0.25);color:#0088cc}
+.buddy-post-form{background:rgba(34,211,238,0.04);border:1px solid rgba(34,211,238,0.12);border-radius:16px;padding:16px;margin-bottom:14px}
+.buddy-post-title{font-size:13px;font-weight:700;color:#22d3ee;margin-bottom:13px}
+.ref-banner{margin:0 0 24px;background:linear-gradient(135deg,rgba(109,40,217,0.12),rgba(59,130,246,0.08));border:1px solid rgba(109,40,217,0.2);border-radius:18px;padding:16px 20px;display:flex;align-items:center;gap:13px;flex-wrap:wrap}
+.ref-banner-icon{font-size:28px}
+.ref-banner-info{flex:1}
+.ref-banner-title{font-size:14px;font-weight:700;margin-bottom:2px}
+.ref-banner-sub{font-size:11px;color:var(--gray)}
+.ref-link-box{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,0.04);border:1px solid rgba(109,40,217,0.25);border-radius:10px;padding:8px 13px;font-size:12px;color:var(--bright);font-family:monospace}
+.ref-copy-btn{padding:6px 15px;background:linear-gradient(135deg,#6d28d9,#4338ca);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">
+    <svg width="34" height="34" viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="18" stroke="#3b82f6" stroke-width="2" fill="rgba(59,130,246,0.1)"/>
+      <ellipse cx="20" cy="20" rx="8" ry="18" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
+      <line x1="2" y1="20" x2="38" y2="20" stroke="#3b82f6" stroke-width="1.5"/>
+      <path d="M13 28 L20 10 L27 28 L20 24 Z" fill="#60a5fa"/>
+      <circle cx="20" cy="20" r="2" fill="#fff"/>
+    </svg>
+    <span class="nav-logo-text">Travora</span>
+  </div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('ru')">RU</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-copy">
+      <div class="hero-kicker" data-en="Premium Journey Design" data-ru="Премиальный дизайн путешествий">Premium Journey Design</div>
+      <h1 data-en="Explore the world in <em>3D elegance</em>" data-ru="Исследуйте мир в <em>3D стиле</em>">Explore the world in <em>3D elegance</em></h1>
+      <p class="hero-sub" data-en="From dream routes to real-time deals, Travora crafts your next escape with AI precision, VIP recommendations, and a frictionless planning flow." data-ru="От маршрута мечты до цен в реальном времени — Travora создаёт ваше следующее путешествие с точностью ИИ и премиальными рекомендациями.">From dream routes to real-time deals, Travora crafts your next escape with AI precision, VIP recommendations, and a frictionless planning flow.</p>
+      <div class="hero-cta">
+        <button class="ai-hero-btn" onclick="handleCategory('ai')">🤖 <span data-en="Build My AI Itinerary" data-ru="Собрать AI маршрут">Build My AI Itinerary</span> <span class="ai-badge">✨ PRO</span></button>
+        <button class="detect-btn" onclick="openModal()" data-en="Discover Near Me" data-ru="Открыть рядом">Discover Near Me</button>
+      </div>
+      <div class="location-bar">
+        <span style="font-size:15px">📍</span>
+        <div class="location-text" id="location-display" data-en="Detecting your location..." data-ru="Определяем местоположение...">Detecting your location...</div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-orbit">
+        <div class="hero-globe">
+          <div class="globe-grid"></div>
+        </div>
+        <div class="hero-orbit-ring">
+          <div class="orbit-dot"></div>
+        </div>
+        <div class="hero-orbit-ring alt">
+          <div class="orbit-dot alt"></div>
+        </div>
+        <div class="hero-card route"><span>Next Route</span><strong>Tokyo → Santorini</strong></div>
+        <div class="hero-card price"><span>Average Save</span><strong>$1,240</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="padding:20px 16px 0">
+  <div class="wise-banner" onclick="window.open('https://wise.com/invite/travora','_blank')">
+    <div class="wise-banner-left">
+      <span class="wise-banner-icon">💸</span>
+      <div>
+        <div class="wise-banner-title" data-en="Save money on currency exchange — Use Wise" data-ru="Экономьте на обмене валют — Wise">Save money on currency exchange — Use Wise</div>
+        <div class="wise-banner-sub" data-en="Up to 8x cheaper than your bank. 16M+ travelers trust Wise." data-ru="До 8x дешевле банка. 16M+ путешественников.">Up to 8x cheaper than your bank. 16M+ travelers trust Wise.</div>
+      </div>
+    </div>
+    <button class="wise-banner-btn" data-en="Get Wise Free →" data-ru="Получить Wise →">Get Wise Free →</button>
+  </div>
+</div>
+
+<section class="deals-section">
+  <div class="deals-container">
+    <div class="deals-header">
+      <div>
+        <p class="section-label" style="text-align:left;margin-bottom:4px" data-en="THIS WEEK" data-ru="НА ЭТОЙ НЕДЕЛЕ">THIS WEEK</p>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,36px);font-weight:700" data-en="🔥 Hot Deals" data-ru="🔥 Горячие предложения">🔥 Hot Deals</h2>
+      </div>
+      <div class="deals-live"><div class="deals-live-dot"></div><span data-en="Live prices" data-ru="Живые цены">Live prices</span></div>
+    </div>
+    <div class="deals-grid" id="deals-grid"></div>
+  </div>
+</section>
+
+<section class="categories">
+  <p class="section-label" data-en="WHAT WE OFFER" data-ru="ЧТО МЫ ПРЕДЛАГАЕМ">WHAT WE OFFER</p>
+  <h2 class="section-title" data-en="Everything for Your Journey" data-ru="Всё для вашего путешествия">Everything for Your Journey</h2>
+  <div class="cat-grid">
+    <div class="cat-card" onclick="openSearchModal('flight-modal')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">✈️</span><div class="cat-name" data-en="Flights" data-ru="Авиабилеты">Flights</div><div class="cat-desc" data-en="700+ airlines compared" data-ru="700+ авиалиний">700+ airlines compared</div></div>
+    </div>
+    <div class="cat-card" onclick="handleCategory('whereis')" style="border:2px solid rgba(255,200,0,0.4)">
+  <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&q=80')"></div>
+  <div class="cat-overlay"></div>
+  <div class="cat-content">
+    <span class="cat-icon">📍</span>
+    <div class="cat-name">Where is This?<span class="new-badge" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">AI</span></div>
+    <div class="cat-desc" data-en="Find any place from a photo" data-ru="Найди место по фото">Find any place from a photo</div>
+  </div>
+</div>
+
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🤖</span><div class="cat-name">AI Travel Plan<span class="new-badge ai-new-badge">AI</span></div><div class="cat-desc" data-en="Full trip planned by AI" data-ru="Полный план от ИИ">Full trip planned by AI</div></div>
+    </div>
+    <div class="cat-card surprise-card" onclick="handleCategory('surprise')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🎲</span><div class="cat-name" data-en="Surprise Trip" data-ru="Сюрприз">Surprise Trip<span class="new-badge surprise-new-badge">NEW</span></div><div class="cat-desc" data-en="Budget in, destination out!" data-ru="Бюджет есть — сюрприз!">Budget in, destination out!</div></div>
+    </div>
+    <div class="cat-card buddy-card" onclick="handleCategory('buddy')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">👥</span><div class="cat-name" data-en="Travel Buddy" data-ru="Попутчик">Travel Buddy<span class="new-badge buddy-new-badge">NEW</span></div><div class="cat-desc" data-en="Find travel companions" data-ru="Найти попутчика">Find travel companions</div></div>
+    </div>
+    <div class="cat-card budget-card" onclick="handleCategory('budget')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">📊</span><div class="cat-name" data-en="Cost Calculator" data-ru="Калькулятор">Cost Calculator<span class="new-badge budget-new-badge">NEW</span></div><div class="cat-desc" data-en="How much will your trip cost?" data-ru="Сколько стоит поездка?">How much will your trip cost?</div></div>
+    </div>
+    <div class="cat-card" onclick="openSearchModal('hotel-modal')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🏨</span><div class="cat-name" data-en="Hotels & Hostels" data-ru="Отели и хостелы">Hotels & Hostels</div><div class="cat-desc" data-en="Hotels, hostels & Airbnb" data-ru="Отели, хостелы, Airbnb">Hotels, hostels & Airbnb</div></div>
+    </div>
+    <div class="cat-card nightlife-card" onclick="handleCategory('nightlife')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🌙</span><div class="cat-name" data-en="Nightlife" data-ru="Ночная жизнь">Nightlife<span class="new-badge nightlife-new-badge">NEW</span></div><div class="cat-desc" data-en="Bars, clubs & rooftop" data-ru="Бары, клубы, руфтоп">Bars, clubs & rooftop</div></div>
+    </div>
+    <div class="cat-card" onclick="handleCategory('transport')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🚌</span><div class="cat-name" data-en="Transport" data-ru="Транспорт">Transport</div><div class="cat-desc" data-en="Local apps for your city" data-ru="Местные приложения">Local apps for your city</div></div>
+    </div>
+    <div class="cat-card" onclick="handleCategory('cars')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🚗</span><div class="cat-name" data-en="Car Rental" data-ru="Аренда авто">Car Rental</div><div class="cat-desc" data-en="Economy to luxury" data-ru="Эконом и люкс">Economy to luxury</div></div>
+    </div>
+    <div class="cat-card" onclick="handleCategory('restaurants')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🍽️</span><div class="cat-name" data-en="Restaurants" data-ru="Рестораны">Restaurants</div><div class="cat-desc" data-en="Best restaurants worldwide" data-ru="Лучшие рестораны">Best restaurants worldwide</div></div>
+    </div>
+    <div class="cat-card" onclick="handleCategory('sim')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">📱</span><div class="cat-name">SIM & eSIM</div><div class="cat-desc" data-en="200+ countries" data-ru="200+ стран">200+ countries</div></div>
+    </div>
+    <div class="cat-card" onclick="handleCategory('train')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🚂</span><div class="cat-name" data-en="Trains & Buses" data-ru="Поезда и автобусы">Trains & Buses</div><div class="cat-desc" data-en="Intercity worldwide" data-ru="Межгородские маршруты">Intercity worldwide</div></div>
+    </div>
+    <div class="cat-card wide" onclick="handleCategory('cruise')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1548574505-5e239809ee19?w=1200&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🚢</span><div class="cat-name" data-en="Cruise Tours" data-ru="Круизы">Cruise Tours</div><div class="cat-desc" data-en="Mediterranean, Caribbean, Asia & more" data-ru="Средиземноморье, Карибы, Азия">Mediterranean, Caribbean, Asia & more</div></div>
+    </div>
+    <div class="cat-card" onclick="handleCategory('events')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🎭</span><div class="cat-name" data-en="Events" data-ru="События">Events</div><div class="cat-desc" data-en="Concerts & festivals" data-ru="Концерты и фестивали">Concerts & festivals</div></div>
+    </div>
+    <div class="cat-card" onclick="handleCategory('visa')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🛂</span><div class="cat-name" data-en="Visa Info" data-ru="Визы">Visa Info</div><div class="cat-desc" data-en="Requirements worldwide" data-ru="Требования">Requirements worldwide</div></div>
+    </div>
+    <div class="cat-card" onclick="handleCategory('weather')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🌤️</span><div class="cat-name" data-en="Weather" data-ru="Погода">Weather</div><div class="cat-desc" data-en="7-day forecast & alerts" data-ru="Прогноз на 7 дней">7-day forecast & alerts</div></div>
+    </div>
+    <div class="cat-card" onclick="handleCategory('tours')">
+      <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=80')"></div>
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><span class="cat-icon">🗺️</span><div class="cat-name" data-en="Tour Packages" data-ru="Тур-пакеты">Tour Packages</div><div class="cat-desc" data-en="Budget & luxury tours" data-ru="Бюджет и люкс туры">Budget & luxury tours</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div><div class="stat-num">200+</div><div class="stat-label" data-en="Countries" data-ru="Стран">Countries</div></div>
+    <div><div class="stat-num">50+</div><div class="stat-label" data-en="Partners" data-ru="Партнёров">Partners</div></div>
+    <div><div class="stat-num">24/7</div><div class="stat-label" data-en="AI Assistant" data-ru="ИИ-ассистент">AI Assistant</div></div>
+    <div><div class="stat-num">$0</div><div class="stat-label" data-en="To Use" data-ru="Бесплатно">To Use</div></div>
+  </div>
+</section>
+
+<section class="currency-section">
+  <div class="currency-container">
+    <p class="section-label" data-en="LIVE RATES" data-ru="LIVE КУРСЫ">LIVE RATES</p>
+    <h2 class="section-title" data-en="Currency Calculator" data-ru="Калькулятор валют">Currency Calculator</h2>
+    <div class="currency-widget">
+      <div class="currency-row">
+        <div class="currency-box">
+          <label data-en="AMOUNT" data-ru="СУММА">AMOUNT</label>
+          <div class="currency-input-row">
+            <input type="number" id="amount-from" value="100" oninput="convert()"/>
+            <select id="currency-from" onchange="convert()">
+              <option value="USD">🇺🇸 USD</option><option value="EUR">🇪🇺 EUR</option><option value="GBP">🇬🇧 GBP</option><option value="RUB">🇷🇺 RUB</option><option value="AZN">🇦🇿 AZN</option><option value="TRY">🇹🇷 TRY</option><option value="JPY">🇯🇵 JPY</option><option value="CNY">🇨🇳 CNY</option><option value="AED">🇦🇪 AED</option><option value="PLN">🇵🇱 PLN</option>
+            </select>
+          </div>
+        </div>
+        <button class="swap-btn" onclick="swapCurrencies()">⇄ Swap</button>
+        <div class="currency-box">
+          <label data-en="CONVERTED" data-ru="РЕЗУЛЬТАТ">CONVERTED</label>
+          <div class="currency-input-row">
+            <input type="number" id="amount-to" readonly placeholder="..."/>
+            <select id="currency-to" onchange="convert()">
+              <option value="EUR">🇪🇺 EUR</option><option value="USD">🇺🇸 USD</option><option value="GBP">🇬🇧 GBP</option><option value="RUB">🇷🇺 RUB</option><option value="AZN">🇦🇿 AZN</option><option value="TRY">🇹🇷 TRY</option><option value="JPY">🇯🇵 JPY</option><option value="CNY">🇨🇳 CNY</option><option value="AED">🇦🇪 AED</option><option value="PLN">🇵🇱 PLN</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rate-info"><span id="rate-text">Loading rates...</span><span class="rate-badge">● Live</span></div>
+    <div class="popular-rates">
+      <div class="pop-rate" onclick="setQuick('USD','EUR')"><span>USD→EUR</span><span id="q-usd-eur" class="pop-val">...</span></div>
+      <div class="pop-rate" onclick="setQuick('USD','RUB')"><span>USD→RUB</span><span id="q-usd-rub" class="pop-val">...</span></div>
+      <div class="pop-rate" onclick="setQuick('USD','AZN')"><span>USD→AZN</span><span id="q-usd-azn" class="pop-val">...</span></div>
+      <div class="pop-rate" onclick="setQuick('USD','TRY')"><span>USD→TRY</span><span id="q-usd-try" class="pop-val">...</span></div>
+      <div class="pop-rate" onclick="setQuick('EUR','GBP')"><span>EUR→GBP</span><span id="q-eur-gbp" class="pop-val">...</span></div>
+      <div class="pop-rate" onclick="setQuick('USD','JPY')"><span>USD→JPY</span><span id="q-usd-jpy" class="pop-val">...</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="blogger-section">
+  <div class="blogger-container">
+    <p class="section-label" data-en="TRAVEL COMMUNITY" data-ru="СООБЩЕСТВО">TRAVEL COMMUNITY</p>
+    <h2 class="section-title" data-en="Travel Bloggers" data-ru="Тревел-блогеры">Travel Bloggers</h2>
+    <div class="ref-banner" id="ref-banner" style="display:none">
+      <span class="ref-banner-icon">🎁</span>
+      <div class="ref-banner-info">
+        <div class="ref-banner-title" data-en="Your referral link:" data-ru="Ваша реферальная ссылка:">Your referral link:</div>
+        <div class="ref-banner-sub" data-en="Share & earn commission!" data-ru="Делитесь и зарабатывайте!">Share & earn commission!</div>
+      </div>
+      <div class="ref-link-box">
+        <span id="ref-link-text">travora.live/?ref=...</span>
+        <button class="ref-copy-btn" onclick="copyRefLink()">Copy</button>
+      </div>
+    </div>
+    <div class="blogger-hero">
+      <div class="blogger-hero-bg"></div>
+      <div class="blogger-hero-overlay"></div>
+      <div class="blogger-hero-content">
+        <div class="blogger-hero-title" data-en="Share Your Journey & Earn" data-ru="Делитесь и зарабатывайте">Share Your Journey & Earn</div>
+        <div class="blogger-hero-sub" data-en="Join bloggers & get your referral link" data-ru="Присоединяйтесь и получите ссылку">Join bloggers & get your referral link</div>
+        <button class="detect-btn" onclick="openBloggerModal()" data-en="📸 Join & Get My Link" data-ru="📸 Стать блогером">📸 Join & Get My Link</button>
+      </div>
+    </div>
+    <div class="blogger-grid">
+      <div class="blogger-card"><div class="blogger-avatar">🌍</div><div><div class="blogger-name">Alex Wanderer</div><div class="blogger-country">🇺🇸 47 countries</div><div class="blogger-bio" data-en="Adventure & budget travel" data-ru="Приключения и бюджет">Adventure & budget travel</div><div class="blogger-links"><a href="#" class="social-link yt">▶ YouTube</a><a href="#" class="social-link ig">◉ Instagram</a></div></div></div>
+      <div class="blogger-card"><div class="blogger-avatar">✈️</div><div><div class="blogger-name">Sofia Explore</div><div class="blogger-country">🇷🇺 31 countries</div><div class="blogger-bio" data-en="Luxury & hidden gems" data-ru="Люкс и скрытые места">Luxury & hidden gems</div><div class="blogger-links"><a href="#" class="social-link yt">▶ YouTube</a><a href="#" class="social-link ig">◉ Instagram</a></div></div></div>
+      <div class="blogger-card"><div class="blogger-avatar">🗺️</div><div><div class="blogger-name">Nomad Kemal</div><div class="blogger-country">🇹🇷 28 countries</div><div class="blogger-bio" data-en="Solo travel & culture" data-ru="Соло и культура">Solo travel & culture</div><div class="blogger-links"><a href="#" class="social-link yt">▶ YouTube</a><a href="#" class="social-link ig">◉ Instagram</a></div></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-logo">
+      <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="18" stroke="#3b82f6" stroke-width="2" fill="rgba(59,130,246,0.1)"/>
+        <ellipse cx="20" cy="20" rx="8" ry="18" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
+        <line x1="2" y1="20" x2="38" y2="20" stroke="#3b82f6" stroke-width="1.5"/>
+        <path d="M13 28 L20 10 L27 28 L20 24 Z" fill="#60a5fa"/>
+        <circle cx="20" cy="20" r="2" fill="#fff"/>
+      </svg>
+      <div>
+        <span class="footer-logo-text">Travora</span>
+        <div class="footer-logo-sub" data-en="Your World, Your Way" data-ru="Ваш мир, ваш путь">Your World, Your Way</div>
+      </div>
+    </div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    </div>
+  </div>
+  <div class="social-media-section">
+    <div class="social-media-title" data-en="FOLLOW US" data-ru="ПОДПИСЫВАЙТЕСЬ">FOLLOW US</div>
+    <div class="social-media-grid">
+      <a href="https://instagram.com/travora.live" target="_blank" class="social-media-card instagram">
+        <svg class="social-media-logo" viewBox="0 0 24 24" fill="none">
+          <defs><radialGradient id="ig-g" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs>
+          <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#ig-g)"/>
+          <circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="1.8" fill="none"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="white"/>
+        </svg>
+        <div class="social-media-info"><span class="social-media-name">Instagram</span><span class="social-media-desc" data-en="Travel photos & tips" data-ru="Фото и советы">Travel photos & tips</span></div>
+        <span class="social-media-follow" data-en="Follow" data-ru="Подписаться">Follow</span>
+      </a>
+      <a href="https://tiktok.com/@travora.live" target="_blank" class="social-media-card tiktok">
+        <svg class="social-media-logo" viewBox="0 0 24 24">
+          <rect width="24" height="24" rx="5" fill="#000"/>
+          <path d="M16.5 5.5c.3 1.5 1.2 2.5 2.5 2.8v2.2c-1.1-.1-2-.4-2.8-1v4.5c0 2.5-2 4.5-4.5 4.5s-4.5-2-4.5-4.5 2-4.5 4.5-4.5c.2 0 .4 0 .6.1V12c-.2-.1-.4-.1-.6-.1-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2V5.5h2.8z" fill="white"/>
+        </svg>
+        <div class="social-media-info"><span class="social-media-name">TikTok</span><span class="social-media-desc" data-en="Travel videos & deals" data-ru="Видео и скидки">Travel videos & deals</span></div>
+        <span class="social-media-follow" data-en="Follow" data-ru="Подписаться">Follow</span>
+      </a>
+      <a href="https://youtube.com/@travora.live" target="_blank" class="social-media-card youtube">
+        <svg class="social-media-logo" viewBox="0 0 24 24">
+          <rect x="2" y="5" width="20" height="14" rx="4" fill="#FF0000"/>
+          <path d="M10 9.5l5 2.5-5 2.5V9.5z" fill="white"/>
+        </svg>
+        <div class="social-media-info"><span class="social-media-name">YouTube</span><span class="social-media-desc" data-en="Travel guides & vlogs" data-ru="Гиды и влоги">Travel guides & vlogs</span></div>
+        <span class="social-media-follow" data-en="Subscribe" data-ru="Подписаться">Subscribe</span>
+      </a>
+      <a href="https://t.me/travora_live" target="_blank" class="social-media-card telegram">
+        <svg class="social-media-logo" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="11" fill="#0088cc"/>
+          <path d="M5.5 11.5l11-4.5-1.5 10-3.5-3-2 2-1-3.5L5.5 11.5z" fill="white"/>
+        </svg>
+        <div class="social-media-info"><span class="social-media-name">Telegram</span><span class="social-media-desc" data-en="Hot deals & alerts" data-ru="Горячие скидки">Hot deals & alerts</span></div>
+        <span class="social-media-follow" data-en="Join" data-ru="Вступить">Join</span>
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-text" data-en="© 2026 Travora. Your world, your way." data-ru="© 2026 Travora. Ваш мир, ваш путь.">© 2026 Travora. Your world, your way.</div>
+    <div class="footer-links">
+      <a href="#" class="footer-link">Privacy</a>
+      <a href="#" class="footer-link">Terms</a>
+      <a href="mailto:hello@travora.live" class="footer-link">hello@travora.live</a>
+    </div>
+  </div>
+</footer>
+
+<!-- WHERE IS THIS MODAL -->
+<div class="search-modal-overlay" id="whereis-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('whereis-modal')" style="border-color:rgba(245,158,11,0.3)">✕</button>
+    <div style="text-align:center;margin-bottom:20px;padding:16px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:16px">
+      <span style="font-size:40px;display:block;margin-bottom:8px">📍</span>
+      <div class="search-modal-title">Where is This?</div>
+      <div class="search-modal-sub" data-en="Upload a photo — AI finds the location!" data-ru="Загрузи фото — ИИ найдёт место!">Upload a photo — AI finds the location!</div>
+    </div>
+
+    <!-- UPLOAD AREA -->
+    <div id="whereis-upload-area" onclick="document.getElementById('whereis-file').click()" style="border:2px dashed rgba(245,158,11,0.4);border-radius:16px;padding:32px;text-align:center;cursor:pointer;margin-bottom:16px;transition:all 0.2s;background:rgba(245,158,11,0.04)">
+      <div style="font-size:40px;margin-bottom:10px">🖼️</div>
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:6px" data-en="Click to upload photo" data-ru="Нажмите для загрузки">Click to upload photo</div>
+      <div style="font-size:12px;color:var(--gray)" data-en="JPG, PNG, WEBP supported" data-ru="JPG, PNG, WEBP">JPG, PNG, WEBP supported</div>
+      <input type="file" id="whereis-file" accept="image/*" style="display:none" onchange="handleWhereisUpload(event)"/>
+    </div>
+
+    <!-- IMAGE PREVIEW -->
+    <div id="whereis-preview" style="display:none;margin-bottom:16px;text-align:center">
+      <img id="whereis-img" style="max-width:100%;max-height:220px;border-radius:12px;object-fit:cover"/>
+      <button onclick="resetWhereis()" style="display:block;margin:10px auto 0;padding:7px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--gray);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif">✕ Remove</button>
+    </div>
+
+    <!-- ANALYZE BUTTON -->
+    <button id="whereis-btn" onclick="analyzeLocation()" style="width:100%;padding:14px;background:linear-gradient(135deg,#f59e0b,#ef4444);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;display:none">
+      🔍 <span data-en="Find This Location!" data-ru="Найти место!">Find This Location!</span>
+    </button>
+
+    <!-- RESULTS -->
+    <div id="whereis-results" style="margin-top:16px"></div>
+  </div>
+</div>
+
+<!-- LOCATION MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <span class="modal-icon">📍</span>
+    <h3 data-en="Enable Location" data-ru="Включить геолокацию">Enable Location</h3>
+    <p data-en="Allow Travora to detect your location." data-ru="Разрешите определить ваше местоположение.">Allow Travora to detect your location.</p>
+    <button class="modal-btn" onclick="detectLocation()" data-en="📍 Allow" data-ru="📍 Разрешить">📍 Allow</button>
+    <button class="modal-btn secondary" onclick="closeModal()" data-en="Enter Manually" data-ru="Вручную">Enter Manually</button>
+  </div>
+</div>
+
+<!-- BLOGGER MODAL -->
+<div class="modal-overlay" id="blogger-modal">
+  <div class="modal blogger-modal-inner">
+    <button class="modal-close" onclick="closeBloggerModal()">✕</button>
+    <div style="text-align:center;margin-bottom:18px"><span style="font-size:42px">📸</span><h3 style="font-family:'Playfair Display',serif;font-size:21px;margin-top:10px">Join & Get Referral Link</h3></div>
+    <div class="blogger-form" id="blogger-form">
+      <div class="form-group"><label>Name</label><input type="text" id="b-name" placeholder="Alex Wanderer"/></div>
+      <div class="form-group"><label>Email</label><input type="email" id="b-email" placeholder="you@email.com"/></div>
+      <div class="form-group"><label>Countries visited</label><input type="number" id="b-countries" placeholder="15"/></div>
+      <div class="form-group"><label><span class="yt-label">▶ YouTube</span> link</label><input type="url" id="b-youtube" placeholder="https://youtube.com/@channel"/></div>
+      <div class="form-group"><label><span class="ig-label">◉ Instagram</span> link</label><input type="url" id="b-instagram" placeholder="https://instagram.com/profile"/></div>
+      <div class="form-note">* At least one social link required</div>
+      <button class="modal-btn" onclick="submitBlogger()">✓ Get My Referral Link</button>
+    </div>
+    <div id="blogger-success" style="display:none;text-align:center;padding:20px 0">
+      <div style="font-size:42px;margin-bottom:10px">🎉</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:20px;margin-bottom:10px">Your referral link is ready!</h3>
+      <div style="background:rgba(109,40,217,0.1);border:1px solid rgba(109,40,217,0.3);border-radius:12px;padding:14px;margin-bottom:14px;font-size:13px;color:var(--bright);font-family:monospace;word-break:break-all" id="blogger-ref-link"></div>
+      <button class="modal-btn" onclick="copyBloggerLink()">📋 Copy Link</button>
+      <button class="modal-btn secondary" onclick="closeBloggerModal()" style="margin-top:6px">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- TRAVEL BUDDY MODAL -->
+<div class="search-modal-overlay" id="buddy-modal">
+  <div class="search-modal buddy-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('buddy-modal')" style="border-color:rgba(34,211,238,0.3)">✕</button>
+    <div class="buddy-modal-header">
+      <span style="font-size:40px;display:block;margin-bottom:8px">👥</span>
+      <div class="search-modal-title" data-en="Find Travel Buddy" data-ru="Найти попутчика">Find Travel Buddy</div>
+      <div class="search-modal-sub" data-en="Connect with travelers going to the same destination!" data-ru="Найдите попутчиков!">Connect with travelers going to the same destination!</div>
+    </div>
+    <div class="buddy-post-form">
+      <div class="buddy-post-title" data-en="📢 Post your trip — find companions:" data-ru="📢 Опубликуйте поездку:">📢 Post your trip — find companions:</div>
+      <div class="search-form">
+        <div class="search-row">
+          <div class="search-field"><label data-en="FROM" data-ru="ОТКУДА">FROM</label><input type="text" id="buddy-from" placeholder="e.g. London"/></div>
+          <div class="search-field"><label data-en="TO" data-ru="КУДА">TO</label><input type="text" id="buddy-to" placeholder="e.g. Tokyo"/></div>
+        </div>
+        <div class="search-row">
+          <div class="search-field"><label data-en="DATE" data-ru="ДАТА">DATE</label><input type="date" id="buddy-date"/></div>
+          <div class="search-field"><label data-en="YOUR NAME" data-ru="ИМЯ">YOUR NAME</label><input type="text" id="buddy-name" placeholder="e.g. Alex"/></div>
+        </div>
+        <div class="search-field">
+          <label data-en="TRAVEL STYLE" data-ru="СТИЛЬ">TRAVEL STYLE</label>
+          <div class="buddy-types">
+            <button class="buddy-type-btn active" onclick="setBuddyType('adventure',this)"><span class="buddy-type-icon">🏔️</span>Adventure</button>
+            <button class="buddy-type-btn" onclick="setBuddyType('culture',this)"><span class="buddy-type-icon">🏛️</span>Culture</button>
+            <button class="buddy-type-btn" onclick="setBuddyType('beach',this)"><span class="buddy-type-icon">🏖️</span>Beach</button>
+            <button class="buddy-type-btn" onclick="setBuddyType('budget',this)"><span class="buddy-type-icon">💰</span>Budget</button>
+            <button class="buddy-type-btn" onclick="setBuddyType('luxury',this)"><span class="buddy-type-icon">💎</span>Luxury</button>
+            <button class="buddy-type-btn" onclick="setBuddyType('foodie',this)"><span class="buddy-type-icon">🍽️</span>Foodie</button>
+          </div>
+        </div>
+        <div class="search-field"><label data-en="ABOUT YOU" data-ru="О СЕБЕ">ABOUT YOU</label><textarea id="buddy-about" placeholder="e.g. 25 y.o., love photography..."></textarea></div>
+        <div class="search-field"><label data-en="CONTACT (WhatsApp or Telegram)" data-ru="КОНТАКТ">CONTACT</label><input type="text" id="buddy-contact" placeholder="@username or +1234567890"/></div>
+        <button class="buddy-search-btn" onclick="findBuddy()" id="buddy-btn">👥 <span data-en="Find Travel Buddies!" data-ru="Найти попутчиков!">Find Travel Buddies!</span></button>
+      </div>
+    </div>
+    <div id="buddy-results"></div>
+  </div>
+</div>
+
+<!-- SURPRISE MODAL -->
+<div class="search-modal-overlay" id="surprise-modal">
+  <div class="search-modal surprise-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('surprise-modal')" style="border-color:rgba(245,158,11,0.3)">✕</button>
+    <div style="text-align:center;margin-bottom:16px;padding:16px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:16px">
+      <span style="font-size:40px;display:block;margin-bottom:8px">🎲</span>
+      <div class="search-modal-title" data-en="Surprise Trip!" data-ru="Сюрприз-поездка!">Surprise Trip!</div>
+      <div class="search-modal-sub" data-en="Tell me your budget & mood!" data-ru="Скажите бюджет и настроение!">Tell me your budget & mood!</div>
+    </div>
+    <div class="search-form">
+      <div class="search-row">
+        <div class="search-field"><label data-en="FROM" data-ru="ОТКУДА">FROM</label><input type="text" id="surp-from" placeholder="e.g. London"/></div>
+        <div class="search-field"><label data-en="BUDGET" data-ru="БЮДЖЕТ">BUDGET</label>
+          <select id="surp-budget"><option value="200">$200</option><option value="400">$400</option><option value="700" selected>$700</option><option value="1200">$1,200</option><option value="2000">$2,000+</option></select>
+        </div>
+      </div>
+      <div class="search-field"><label data-en="DAYS" data-ru="ДНЕЙ">DAYS</label>
+        <select id="surp-days"><option value="2">2 days</option><option value="5" selected>5 days</option><option value="7">7 days</option><option value="10">10 days</option><option value="14">14 days</option></select>
+      </div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f59e0b;margin-bottom:10px">MOOD</div>
+      <div class="surprise-moods">
+        <button class="surprise-mood-btn active" onclick="setSurpriseMood('adventure',this)"><span class="surprise-mood-icon">🏔️</span>Adventure</button>
+        <button class="surprise-mood-btn" onclick="setSurpriseMood('beach',this)"><span class="surprise-mood-icon">🏖️</span>Beach</button>
+        <button class="surprise-mood-btn" onclick="setSurpriseMood('city',this)"><span class="surprise-mood-icon">🏙️</span>City</button>
+        <button class="surprise-mood-btn" onclick="setSurpriseMood('culture',this)"><span class="surprise-mood-icon">🏛️</span>Culture</button>
+        <button class="surprise-mood-btn" onclick="setSurpriseMood('romantic',this)"><span class="surprise-mood-icon">💑</span>Romantic</button>
+        <button class="surprise-mood-btn" onclick="setSurpriseMood('nature',this)"><span class="surprise-mood-icon">🌿</span>Nature</button>
+      </div>
+      <button class="surprise-btn" onclick="generateSurpriseTrip()" id="surprise-btn">🎲 <span data-en="Surprise Me!" data-ru="Удиви меня!">Surprise Me!</span></button>
+    </div>
+    <div class="surprise-result" id="surprise-result">
+      <div class="ai-loading" id="surprise-loading"><span class="ai-loading-icon">🎲</span><div style="font-size:16px;font-weight:700;margin-bottom:8px">Finding your destination...</div></div>
+      <div id="surprise-output" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- BUDGET MODAL -->
+<div class="search-modal-overlay" id="budget-modal">
+  <div class="search-modal budget-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('budget-modal')" style="border-color:rgba(52,211,153,0.3)">✕</button>
+    <div style="text-align:center;margin-bottom:16px;padding:16px;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.2);border-radius:16px">
+      <span style="font-size:40px;display:block;margin-bottom:8px">📊</span>
+      <div class="search-modal-title" data-en="Cost Calculator" data-ru="Калькулятор">Cost Calculator</div>
+      <div class="search-modal-sub" data-en="How much will your trip cost?" data-ru="Сколько стоит поездка?">How much will your trip cost?</div>
+    </div>
+    <div class="search-form">
+      <div class="search-field"><label data-en="DESTINATION" data-ru="НАПРАВЛЕНИЕ">DESTINATION</label><input type="text" id="budg-dest" placeholder="e.g. Paris, Dubai, Tokyo"/></div>
+      <div class="search-row">
+        <div class="search-field"><label data-en="DAYS" data-ru="ДНЕЙ">DAYS</label>
+          <select id="budg-days"><option value="3">3 days</option><option value="5" selected>5 days</option><option value="7">7 days</option><option value="10">10 days</option><option value="14">14 days</option></select>
+        </div>
+        <div class="search-field"><label data-en="STYLE" data-ru="СТИЛЬ">STYLE</label>
+          <select id="budg-style"><option value="budget">Budget</option><option value="mid" selected>Mid-range</option><option value="luxury">Luxury</option></select>
+        </div>
+      </div>
+      <button class="budget-calculate-btn" onclick="calculateBudget()" id="budg-btn">📊 <span data-en="Calculate" data-ru="Рассчитать">Calculate</span></button>
+    </div>
+    <div id="budget-result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- FLIGHT MODAL -->
+<div class="search-modal-overlay" id="flight-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('flight-modal')">✕</button>
+    <div class="search-modal-title" data-en="✈️ Find Flights" data-ru="✈️ Найти рейсы">✈️ Find Flights</div>
+    <div class="search-modal-sub" data-en="Compare all airlines" data-ru="Сравните все авиалинии">Compare all airlines</div>
+    <div class="search-tabs">
+      <button class="search-tab active" onclick="setFlightType('roundtrip',this)" data-en="Round Trip" data-ru="Туда-обратно">Round Trip</button>
+      <button class="search-tab" onclick="setFlightType('oneway',this)" data-en="One Way" data-ru="В одну сторону">One Way</button>
+    </div>
+    <div class="search-form">
+      <div class="search-row">
+        <div class="search-field"><label data-en="FROM" data-ru="ОТКУДА">FROM</label><input type="text" id="f-from" placeholder="e.g. London"/></div>
+        <div class="search-field"><label data-en="TO" data-ru="КУДА">TO</label><input type="text" id="f-to" placeholder="e.g. Tokyo"/></div>
+      </div>
+      <div class="search-row">
+        <div class="search-field"><label data-en="DEPARTURE" data-ru="ВЫЛЕТ">DEPARTURE</label><input type="date" id="f-depart"/></div>
+        <div class="search-field" id="f-return-field"><label data-en="RETURN" data-ru="ВОЗВРАТ">RETURN</label><input type="date" id="f-return"/></div>
+      </div>
+      <div class="search-row">
+        <div class="search-field"><label data-en="PASSENGERS" data-ru="ПАССАЖИРЫ">PASSENGERS</label>
+          <select id="f-passengers"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5+</option></select>
+        </div>
+        <div class="search-field"><label data-en="CLASS" data-ru="КЛАСС">CLASS</label>
+          <select id="f-class"><option value="M">Economy</option><option value="C">Business</option><option value="F">First</option></select>
+        </div>
+      </div>
+      <button class="search-btn" onclick="searchFlights()" data-en="🔍 Search All Airlines" data-ru="🔍 Искать везде">🔍 Search All Airlines</button>
+      <div class="search-sites"><span class="search-site-badge">🥇 Kiwi.com</span><span class="search-site-badge">✈️ Skyscanner</span><span class="search-site-badge">✈️ Google Flights</span><span class="search-site-badge">✈️ Kayak</span><span class="search-site-badge">✈️ Momondo</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOTEL MODAL -->
+<div class="search-modal-overlay" id="hotel-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('hotel-modal')">✕</button>
+    <div class="search-modal-title" data-en="🏨 Find Hotels" data-ru="🏨 Найти отели">🏨 Find Hotels</div>
+    <div class="search-modal-sub" data-en="Compare all booking platforms" data-ru="Сравните все платформы">Compare all booking platforms</div>
+    <div class="search-form">
+      <div class="search-field"><label data-en="DESTINATION" data-ru="НАПРАВЛЕНИЕ">DESTINATION</label><input type="text" id="h-city" placeholder="e.g. Paris, Tokyo"/></div>
+      <div class="search-row">
+        <div class="search-field"><label data-en="CHECK IN" data-ru="ЗАЕЗД">CHECK IN</label><input type="date" id="h-checkin"/></div>
+        <div class="search-field"><label data-en="CHECK OUT" data-ru="ВЫЕЗД">CHECK OUT</label><input type="date" id="h-checkout"/></div>
+      </div>
+      <div class="search-row">
+        <div class="search-field"><label data-en="GUESTS" data-ru="ГОСТЕЙ">GUESTS</label>
+          <select id="h-guests"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4+</option></select>
+        </div>
+        <div class="search-field"><label data-en="ROOMS" data-ru="НОМЕРА">ROOMS</label>
+          <select id="h-rooms"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+        </div>
+      </div>
+      <div class="search-field"><label data-en="TYPE" data-ru="ТИП">TYPE</label>
+        <div class="hotel-type-grid">
+          <button class="hotel-type-btn active" onclick="setHotelType('all',this)">🏨 All</button>
+          <button class="hotel-type-btn" onclick="setHotelType('hotel',this)">⭐ Hotel</button>
+          <button class="hotel-type-btn" onclick="setHotelType('hostel',this)">🛏️ Hostel</button>
+          <button class="hotel-type-btn" onclick="setHotelType('airbnb',this)">🏠 Airbnb</button>
+          <button class="hotel-type-btn" onclick="setHotelType('luxury',this)">💎 Luxury</button>
+          <button class="hotel-type-btn" onclick="setHotelType('apartment',this)">🏢 Apart</button>
+        </div>
+      </div>
+      <button class="search-btn" onclick="searchHotels()" data-en="🔍 Compare All" data-ru="🔍 Сравнить всё">🔍 Compare All</button>
+      <div class="search-sites"><span class="search-site-badge">🏨 Booking.com</span><span class="search-site-badge">🏠 Airbnb</span><span class="search-site-badge">🛏️ Hostelworld</span><span class="search-site-badge">🏨 Hotels.com</span><span class="search-site-badge">🏨 Agoda</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- NIGHTLIFE MODAL -->
+<div class="search-modal-overlay" id="nightlife-modal">
+  <div class="search-modal nightlife-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('nightlife-modal')" style="border-color:rgba(244,63,94,0.3)">✕</button>
+    <div style="text-align:center;margin-bottom:16px;padding:16px;background:rgba(244,63,94,0.08);border:1px solid rgba(244,63,94,0.2);border-radius:16px">
+      <span style="font-size:40px;display:block;margin-bottom:8px">🌙</span>
+      <div class="search-modal-title" data-en="Nightlife" data-ru="Ночная жизнь">Nightlife</div>
+      <div class="search-modal-sub" data-en="Best bars, clubs & rooftops worldwide" data-ru="Лучшие бары, клубы, руфтопы">Best bars, clubs & rooftops worldwide</div>
+    </div>
+    <div class="search-input-row">
+      <input type="text" id="nightlife-city" placeholder="e.g. Berlin, Dubai, Tokyo"/>
+      <button onclick="searchNightlife()" style="background:linear-gradient(135deg,#f43f5e,#be123c)">🔍</button>
+    </div>
+    <div class="nightlife-types">
+      <button class="nightlife-type-btn active" onclick="setNightlifeType('all',this)"><span class="nightlife-type-icon">🌙</span>All</button>
+      <button class="nightlife-type-btn" onclick="setNightlifeType('bar',this)"><span class="nightlife-type-icon">🍺</span>Bars</button>
+      <button class="nightlife-type-btn" onclick="setNightlifeType('club',this)"><span class="nightlife-type-icon">🎵</span>Clubs</button>
+      <button class="nightlife-type-btn" onclick="setNightlifeType('lounge',this)"><span class="nightlife-type-icon">🛋️</span>Lounge</button>
+      <button class="nightlife-type-btn" onclick="setNightlifeType('rooftop',this)"><span class="nightlife-type-icon">🌆</span>Rooftop</button>
+      <button class="nightlife-type-btn" onclick="setNightlifeType('cocktail',this)"><span class="nightlife-type-icon">🍸</span>Cocktail</button>
+    </div>
+    <button class="nightlife-search-btn" onclick="searchNightlife()" data-en="🌙 Find Best Nightlife" data-ru="🌙 Найти">🌙 Find Best Nightlife</button>
+    <div id="nightlife-results" style="margin-top:14px"></div>
+  </div>
+</div>
+
+<!-- TRANSPORT MODAL -->
+<div class="search-modal-overlay" id="transport-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('transport-modal')">✕</button>
+    <div class="search-modal-title" data-en="🚌 Local Transport" data-ru="🚌 Транспорт">🚌 Local Transport</div>
+    <div class="search-modal-sub" data-en="Best apps for any city" data-ru="Лучшие приложения">Best apps for any city</div>
+    <div class="search-input-row">
+      <input type="text" id="transport-input" placeholder="e.g. Berlin, Tokyo, Dubai"/>
+      <button onclick="doTransportSearch()">🔍</button>
+    </div>
+    <div id="transport-results"></div>
+  </div>
+</div>
+
+<!-- RESTAURANT MODAL -->
+<div class="search-modal-overlay" id="restaurant-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('restaurant-modal')">✕</button>
+    <div class="search-modal-title" data-en="🍽️ Find Restaurants" data-ru="🍽️ Рестораны">🍽️ Find Restaurants</div>
+    <div class="search-modal-sub" data-en="Best restaurants worldwide" data-ru="Лучшие рестораны">Best restaurants worldwide</div>
+    <div class="search-input-row">
+      <input type="text" id="r-city" placeholder="e.g. Paris, Tokyo"/>
+      <button onclick="doRestaurantSearch()">🔍</button>
+    </div>
+    <div class="search-field" style="margin-bottom:12px">
+      <label style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:5px;display:block">CUISINE</label>
+      <input type="text" id="r-cuisine" placeholder="e.g. Italian, Sushi..." style="padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;width:100%"/>
+    </div>
+    <div id="restaurant-results"></div>
+  </div>
+</div>
+
+<!-- SIM MODAL -->
+<div class="search-modal-overlay" id="sim-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('sim-modal')">✕</button>
+    <div class="search-modal-title">📱 SIM & eSIM</div>
+    <div class="search-modal-sub" data-en="Stay connected in 200+ countries" data-ru="Связь в 200+ странах">Stay connected in 200+ countries</div>
+    <div class="search-input-row">
+      <input type="text" id="sim-input" placeholder="e.g. Germany, Japan, Turkey"/>
+      <button onclick="doSimSearch()">🔍</button>
+    </div>
+    <div id="sim-results"></div>
+  </div>
+</div>
+
+<!-- EVENTS MODAL -->
+<div class="search-modal-overlay" id="events-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('events-modal')">✕</button>
+    <div class="search-modal-title" data-en="🎭 Find Events" data-ru="🎭 События">🎭 Find Events</div>
+    <div class="search-modal-sub" data-en="Concerts, festivals & events worldwide" data-ru="Концерты и фестивали">Concerts, festivals & events worldwide</div>
+    <div class="search-input-row">
+      <input type="text" id="events-city" placeholder="e.g. Berlin, London, Tokyo"/>
+      <button onclick="doEventsSearch()">🔍</button>
+    </div>
+    <div class="event-type-grid">
+      <button class="event-type-btn active" onclick="setEventType('all',this)">🎭 All</button>
+      <button class="event-type-btn" onclick="setEventType('concert',this)">🎵 Concerts</button>
+      <button class="event-type-btn" onclick="setEventType('festival',this)">🎪 Festivals</button>
+      <button class="event-type-btn" onclick="setEventType('sport',this)">⚽ Sports</button>
+      <button class="event-type-btn" onclick="setEventType('theatre',this)">🎬 Theatre</button>
+      <button class="event-type-btn" onclick="setEventType('nightlife',this)">🌙 Nightlife</button>
+    </div>
+    <div id="events-results"></div>
+  </div>
+</div>
+
+<!-- CRUISE MODAL -->
+<div class="search-modal-overlay" id="cruise-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('cruise-modal')">✕</button>
+    <div class="search-modal-title" data-en="🚢 Cruise Tours" data-ru="🚢 Круизы">🚢 Cruise Tours</div>
+    <div class="search-modal-sub" data-en="Choose your region" data-ru="Выберите регион">Choose your region</div>
+    <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px">SELECT REGION</div>
+    <div class="cruise-regions">
+      <div class="cruise-region-card active" onclick="selectCruiseRegion('mediterranean',this)"><div class="cruise-region-bg" style="background-image:url('https://images.unsplash.com/photo-1555993539-1732b0258235?w=400&q=80')"></div><div class="cruise-region-overlay"></div><div class="cruise-region-content"><span class="cruise-region-icon">🌊</span><div class="cruise-region-name">Mediterranean</div></div></div>
+      <div class="cruise-region-card" onclick="selectCruiseRegion('caribbean',this)"><div class="cruise-region-bg" style="background-image:url('https://images.unsplash.com/photo-1548574505-5e239809ee19?w=400&q=80')"></div><div class="cruise-region-overlay"></div><div class="cruise-region-content"><span class="cruise-region-icon">🏝️</span><div class="cruise-region-name">Caribbean</div></div></div>
+      <div class="cruise-region-card" onclick="selectCruiseRegion('asia',this)"><div class="cruise-region-bg" style="background-image:url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=400&q=80')"></div><div class="cruise-region-overlay"></div><div class="cruise-region-content"><span class="cruise-region-icon">🌏</span><div class="cruise-region-name">Asia</div></div></div>
+      <div class="cruise-region-card" onclick="selectCruiseRegion('norway',this)"><div class="cruise-region-bg" style="background-image:url('https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=400&q=80')"></div><div class="cruise-region-overlay"></div><div class="cruise-region-content"><span class="cruise-region-icon">🧊</span><div class="cruise-region-name">Norway Fjords</div></div></div>
+      <div class="cruise-region-card" onclick="selectCruiseRegion('atlantic',this)"><div class="cruise-region-bg" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80')"></div><div class="cruise-region-overlay"></div><div class="cruise-region-content"><span class="cruise-region-icon">🗽</span><div class="cruise-region-name">Transatlantic</div></div></div>
+      <div class="cruise-region-card" onclick="selectCruiseRegion('dubai',this)"><div class="cruise-region-bg" style="background-image:url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&q=80')"></div><div class="cruise-region-overlay"></div><div class="cruise-region-content"><span class="cruise-region-icon">🌅</span><div class="cruise-region-name">Middle East</div></div></div>
+    </div>
+    <div id="cruise-info"></div>
+  </div>
+</div>
+
+<!-- VISA MODAL -->
+<div class="search-modal-overlay" id="visa-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('visa-modal')">✕</button>
+    <div class="search-modal-title" data-en="🛂 Visa Information" data-ru="🛂 Визы">🛂 Visa Information</div>
+    <div class="search-modal-sub" data-en="Requirements worldwide" data-ru="Требования">Requirements worldwide</div>
+    <div class="search-input-row">
+      <input type="text" id="visa-country" placeholder="e.g. Turkey, Germany, UAE"/>
+      <button onclick="doVisaSearch()">🔍</button>
+    </div>
+    <div id="visa-results"></div>
+  </div>
+</div>
+
+<!-- WEATHER MODAL -->
+<div class="search-modal-overlay" id="weather-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('weather-modal')">✕</button>
+    <div class="search-modal-title" data-en="🌤️ Weather Forecast" data-ru="🌤️ Погода">🌤️ Weather Forecast</div>
+    <div class="search-modal-sub" data-en="7-day forecast for any city" data-ru="Прогноз на 7 дней">7-day forecast for any city</div>
+    <div class="search-input-row">
+      <input type="text" id="weather-city" placeholder="e.g. London, Tokyo, Dubai"/>
+      <button onclick="doWeatherSearch()">🔍</button>
+    </div>
+    <div id="weather-results"></div>
+  </div>
+</div>
+
+<!-- TOURS MODAL -->
+<div class="search-modal-overlay" id="tours-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('tours-modal')">✕</button>
+    <div class="search-modal-title" data-en="🗺️ Tour Packages" data-ru="🗺️ Туры">🗺️ Tour Packages</div>
+    <div class="search-modal-sub" data-en="Find the perfect tour" data-ru="Найдите идеальный тур">Find the perfect tour</div>
+    <div class="search-input-row">
+      <input type="text" id="tour-dest" placeholder="e.g. Bali, Egypt, Japan"/>
+      <button onclick="searchTours()">🔍</button>
+    </div>
+    <div id="tour-results"></div>
+  </div>
+</div>
+
+<!-- TRAIN MODAL -->
+<div class="search-modal-overlay" id="train-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('train-modal')">✕</button>
+    <div class="search-modal-title" data-en="🚂 Trains & Buses" data-ru="🚂 Поезда и автобусы">🚂 Trains & Buses</div>
+    <div class="search-modal-sub" data-en="Intercity travel worldwide" data-ru="Межгородские маршруты">Intercity travel worldwide</div>
+    <div class="search-form">
+      <div class="search-row">
+        <div class="search-field"><label data-en="FROM" data-ru="ОТКУДА">FROM</label><input type="text" id="tr-from" placeholder="e.g. Paris"/></div>
+        <div class="search-field"><label data-en="TO" data-ru="КУДА">TO</label><input type="text" id="tr-to" placeholder="e.g. Amsterdam"/></div>
+      </div>
+      <div class="search-field"><label data-en="DATE" data-ru="ДАТА">DATE</label><input type="date" id="tr-date" style="padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;width:100%"/></div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px">REGION</div>
+      <div class="train-region-grid">
+        <button class="train-region-btn active" onclick="setTrainRegion('europe',this)"><span class="train-region-icon">🇪🇺</span>Europe</button>
+        <button class="train-region-btn" onclick="setTrainRegion('asia',this)"><span class="train-region-icon">🌏</span>Asia</button>
+        <button class="train-region-btn" onclick="setTrainRegion('cis',this)"><span class="train-region-icon">🇷🇺</span>CIS/Russia</button>
+        <button class="train-region-btn" onclick="setTrainRegion('us',this)"><span class="train-region-icon">🇺🇸</span>USA/Canada</button>
+      </div>
+      <button class="search-btn" onclick="searchTrains()" data-en="🔍 Find Routes" data-ru="🔍 Найти">🔍 Find Routes</button>
+      <div id="train-sites-badges" class="search-sites"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAR MODAL -->
+<div class="search-modal-overlay" id="car-modal">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('car-modal')">✕</button>
+    <div class="search-modal-title" data-en="🚗 Car Rental" data-ru="🚗 Аренда авто">🚗 Car Rental</div>
+    <div class="search-modal-sub" data-en="Compare all rental companies" data-ru="Сравните все компании">Compare all rental companies</div>
+    <div class="search-form">
+      <div class="search-field"><label data-en="PICKUP LOCATION" data-ru="МЕСТО">PICKUP LOCATION</label><input type="text" id="car-city" placeholder="e.g. Dubai, Paris"/></div>
+      <div class="search-row">
+        <div class="search-field"><label data-en="PICKUP DATE" data-ru="ПОЛУЧЕНИЕ">PICKUP DATE</label><input type="date" id="car-pickup"/></div>
+        <div class="search-field"><label data-en="RETURN DATE" data-ru="ВОЗВРАТ">RETURN DATE</label><input type="date" id="car-return"/></div>
+      </div>
+      <div class="search-field"><label data-en="CAR TYPE" data-ru="ТИП">CAR TYPE</label>
+        <div class="car-type-grid">
+          <button class="car-type-btn active" onclick="setCarType('all',this)"><span class="car-type-icon">🚗</span>All</button>
+          <button class="car-type-btn" onclick="setCarType('economy',this)"><span class="car-type-icon">💰</span>Economy</button>
+          <button class="car-type-btn" onclick="setCarType('suv',this)"><span class="car-type-icon">🚙</span>SUV</button>
+          <button class="car-type-btn" onclick="setCarType('luxury',this)"><span class="car-type-icon">💎</span>Luxury</button>
+          <button class="car-type-btn" onclick="setCarType('van',this)"><span class="car-type-icon">🚐</span>Van</button>
+          <button class="car-type-btn" onclick="setCarType('electric',this)"><span class="car-type-icon">⚡</span>Electric</button>
+        </div>
+      </div>
+      <button class="search-btn" onclick="searchCars()" data-en="🔍 Compare Prices" data-ru="🔍 Сравнить">🔍 Compare Prices</button>
+      <div class="search-sites"><span class="search-site-badge">🚗 Rentalcars</span><span class="search-site-badge">🚗 Kayak</span><span class="search-site-badge">🚗 Sixt</span><span class="search-site-badge">🚗 Hertz</span><span class="search-site-badge">🚗 Europcar</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- AI MODAL -->
+<div class="search-modal-overlay" id="ai-modal">
+  <div class="search-modal ai-modal">
+    <button class="search-modal-close" onclick="closeSearchModal('ai-modal')" style="border-color:rgba(109,40,217,0.3)">✕</button>
+    <div class="ai-modal-header">
+      <span class="ai-modal-icon">🤖</span>
+      <div class="ai-modal-title" data-en="AI Travel Planner" data-ru="ИИ Планировщик">AI Travel Planner</div>
+      <div class="ai-modal-sub" data-en="Tell me your dream trip!" data-ru="Расскажите о поездке мечты!">Tell me your dream trip!</div>
+    </div>
+    <div class="search-form">
+      <div class="search-row">
+        <div class="search-field"><label data-en="FROM" data-ru="ОТКУДА">FROM</label><input type="text" id="ai-from" placeholder="e.g. London"/></div>
+        <div class="search-field"><label data-en="DESTINATION" data-ru="КУДА">DESTINATION</label><input type="text" id="ai-to" placeholder="e.g. Tokyo"/></div>
+      </div>
+      <div class="search-row">
+        <div class="search-field"><label data-en="DAYS" data-ru="ДНЕЙ">DAYS</label>
+          <select id="ai-days"><option value="3">3 days</option><option value="5" selected>5 days</option><option value="7">7 days</option><option value="10">10 days</option><option value="14">14 days</option></select>
+        </div>
+        <div class="search-field"><label data-en="BUDGET" data-ru="БЮДЖЕТ">BUDGET</label>
+          <select id="ai-budget"><option value="300">$300</option><option value="500">$500</option><option value="800" selected>$800</option><option value="1500">$1,500</option><option value="3000">$3,000+</option></select>
+        </div>
+      </div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px">WHO ARE YOU?</div>
+      <div class="traveler-types">
+        <button class="traveler-type-btn active" onclick="setTravelerType('solo',this)"><span class="traveler-type-icon">🎒</span>Solo</button>
+        <button class="traveler-type-btn" onclick="setTravelerType('couple',this)"><span class="traveler-type-icon">💑</span>Couple</button>
+        <button class="traveler-type-btn" onclick="setTravelerType('family',this)"><span class="traveler-type-icon">👨‍👩‍👧</span>Family</button>
+        <button class="traveler-type-btn" onclick="setTravelerType('backpacker',this)"><span class="traveler-type-icon">🏕️</span>Backpacker</button>
+        <button class="traveler-type-btn" onclick="setTravelerType('luxury',this)"><span class="traveler-type-icon">💎</span>Luxury</button>
+        <button class="traveler-type-btn" onclick="setTravelerType('foodie',this)"><span class="traveler-type-icon">🍽️</span>Foodie</button>
+      </div>
+      <div class="search-field"><label>WISHES</label><input type="text" id="ai-wishes" placeholder="e.g. romantic, adventure, museums..."/></div>
+      <button class="ai-generate-btn" onclick="generateAIPlan()" id="ai-btn">✨ <span data-en="Generate My Travel Plan" data-ru="Создать план">Generate My Travel Plan</span></button>
+    </div>
+    <div class="ai-result" id="ai-result">
+      <div class="ai-loading" id="ai-loading">
+        <span class="ai-loading-icon">🌍</span>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Planning your trip...</div>
+        <div style="color:var(--gray);font-size:13px" id="ai-loading-status">Analyzing destination...</div>
+      </div>
+      <div id="ai-plan-output" style="display:none">
+        <div class="ai-plan-content" id="ai-plan-content"></div>
+        <div class="ai-share-btns">
+          <button class="ai-share-btn" onclick="copyPlan()">📋 Copy</button>
+          <button class="ai-share-btn" onclick="shareWhatsApp()">💬 WhatsApp</button>
+          <button class="ai-share-btn" onclick="shareTelegram()">📨 Telegram</button>
+          <button class="ai-share-btn" onclick="newPlan()" style="background:rgba(109,40,217,0.15)">🔄 New</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let lang='en',flightType='roundtrip',hotelType='all',eventType='all',carType='all',trainRegion='europe',travelerType='solo',nightlifeType='all',surpriseMood='adventure',buddyType='adventure';
+let selectedCruiseRegion='mediterranean';
+let currentPlanText='';
+
+const dealsData=[
+  {emoji:'✈️',route:'London → New York',desc:'Round trip • Economy',oldPrice:'$620',newPrice:'$389',discount:'-37%',img:'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400&q=80',url:()=>`https://www.kiwi.com/en/search/results/london/new-york-city/${getTomorrow()}/${getNextWeek()}`},
+  {emoji:'✈️',route:'Paris → Tokyo',desc:'Round trip • Economy',oldPrice:'$980',newPrice:'$649',discount:'-34%',img:'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=400&q=80',url:()=>`https://www.kiwi.com/en/search/results/paris/tokyo/${getTomorrow()}/${getNextWeek()}`},
+  {emoji:'🏨',route:'Barcelona 5★ Hotel',desc:'Per night • Breakfast',oldPrice:'$180',newPrice:'$89',discount:'-51%',img:'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=400&q=80',url:()=>`https://www.booking.com/searchresults.html?ss=barcelona&checkin=${getTomorrow()}&checkout=${getNextWeek()}`},
+  {emoji:'✈️',route:'Dubai → Bangkok',desc:'Round trip',oldPrice:'$420',newPrice:'$259',discount:'-38%',img:'https://images.unsplash.com/photo-1508009603885-50cf7c8dd0d5?w=400&q=80',url:()=>`https://www.kiwi.com/en/search/results/dubai/bangkok/${getTomorrow()}/${getNextWeek()}`},
+  {emoji:'🚢',route:'Mediterranean Cruise',desc:'7 nights • All inclusive',oldPrice:'$849',newPrice:'$599',discount:'-30%',img:'https://images.unsplash.com/photo-1548574505-5e239809ee19?w=400&q=80',url:()=>'https://www.msccruises.com/'},
+  {emoji:'🗺️',route:'Bali 7 Nights',desc:'Hotel + Activities',oldPrice:'$599',newPrice:'$449',discount:'-25%',img:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&q=80',url:()=>'https://www.getyourguide.com/s/?q=bali'},
+  {emoji:'✈️',route:'Amsterdam → Rome',desc:'Round trip',oldPrice:'$310',newPrice:'$129',discount:'-58%',img:'https://images.unsplash.com/photo-1529260830199-42c24126f198?w=400&q=80',url:()=>`https://www.kiwi.com/en/search/results/amsterdam/rome/${getTomorrow()}/${getNextWeek()}`},
+  {emoji:'🏨',route:'Tokyo City Hotel',desc:'Per night • City center',oldPrice:'$220',newPrice:'$119',discount:'-46%',img:'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=400&q=80',url:()=>`https://www.booking.com/searchresults.html?ss=tokyo&checkin=${getTomorrow()}&checkout=${getNextWeek()}`}
+];
+
+function getTomorrow(){const d=new Date();d.setDate(d.getDate()+1);return d.toISOString().split('T')[0]}
+function getNextWeek(){const d=new Date();d.setDate(d.getDate()+8);return d.toISOString().split('T')[0]}
+function renderDeals(){const isRu=lang==='ru';document.getElementById('deals-grid').innerHTML=dealsData.map(d=>`<div class="deal-card" onclick="window.open('${d.url()}','_blank')"><div class="deal-badge">${d.discount}</div><div class="deal-img" style="background-image:url('${d.img}')"></div><div class="deal-body"><div class="deal-route">${d.emoji} ${d.route}</div><div class="deal-desc">${d.desc}</div><div class="deal-prices"><span class="deal-price-old">${d.oldPrice}</span><span class="deal-price-new">${d.newPrice}</span></div><button class="deal-cta">${isRu?'Забронировать →':'Book Now →'}</button></div></div>`).join('')}
+
+function setBuddyType(t,btn){buddyType=t;document.querySelectorAll('.buddy-type-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+
+async function findBuddy(){
+  const from=document.getElementById('buddy-from').value.trim();
+  const to=document.getElementById('buddy-to').value.trim();
+  const date=document.getElementById('buddy-date').value;
+  const name=document.getElementById('buddy-name').value.trim();
+  const about=document.getElementById('buddy-about').value.trim();
+  const contact=document.getElementById('buddy-contact').value.trim();
+  if(!to){alert('Please enter destination');return}
+  const btn=document.getElementById('buddy-btn');btn.disabled=true;
+  document.getElementById('buddy-results').innerHTML=`<div class="weather-loading">⏳ Finding travel buddies...</div>`;
+  const styleLabels={adventure:'adventure lover',culture:'culture enthusiast',beach:'beach lover',budget:'budget traveler',luxury:'luxury traveler',foodie:'foodie'};
+  const prompt=`Generate 3 realistic travel companion profiles for someone going to ${to}${from?' from '+from:''}.
+Travel style: ${styleLabels[buddyType]}${date?', Date: '+date:''}
+
+For each use EXACTLY:
+---
+NAME: [name]
+AGE: [25-45]
+FROM: [city, country]
+STYLE: [keywords]
+BIO: [1-2 sentences]
+WHATSAPP: [+phone]
+TELEGRAM: [@username]
+---`;
+  try{
+    const response=await fetch('/api/plan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
+    const data=await response.json();
+    const text=data.content.map(i=>i.text||'').join('');
+    const blocks=text.split('---').filter(b=>b.trim()&&b.includes('NAME:'));
+    const avatars=['🌍','✈️','🗺️','🏔️','🏖️','🌺'];
+    const isRu=lang==='ru';
+    let html=`<div class="results-title">${isRu?`Попутчики в ${to}`:`Travel buddies to ${to}`}</div>`;
+    blocks.forEach((block,idx)=>{
+      const g=key=>block.match(new RegExp(key+':\\s*(.+)'))?.[1]?.trim()||'';
+      const pName=g('NAME'),pAge=g('AGE'),pFrom=g('FROM'),pStyle=g('STYLE'),pBio=g('BIO'),pWA=g('WHATSAPP'),pTG=g('TELEGRAM');
+      if(!pName)return;
+      const waLink=pWA?`https://wa.me/${pWA.replace(/[^0-9]/g,'')}`:null;
+      const tgLink=pTG?`https://t.me/${pTG.replace('@','')}`:null;
+      html+=`<div class="buddy-card"><div class="buddy-card-header"><div class="buddy-avatar">${avatars[idx%avatars.length]}</div><div><div class="buddy-name">${pName}, ${pAge}</div><div class="buddy-meta">📍 ${pFrom}</div></div></div><div class="buddy-tags">${pStyle.split(',').map(s=>`<span class="buddy-tag">${s.trim()}</span>`).join('')}<span class="buddy-tag">✈️ ${to}</span>${date?`<span class="buddy-tag">📅 ${date}</span>`:''}</div><div style="font-size:13px;color:var(--light);margin-bottom:10px;line-height:1.6">${pBio}</div><div class="buddy-contact-btns">${waLink?`<a href="${waLink}" target="_blank" class="buddy-contact-btn whatsapp">💬 WhatsApp</a>`:''} ${tgLink?`<a href="${tgLink}" target="_blank" class="buddy-contact-btn telegram">✈️ Telegram</a>`:''}</div></div>`;
+    });
+    if(name&&contact){html+=`<div class="buddy-card" style="border-color:rgba(34,211,238,0.4);background:rgba(34,211,238,0.06)"><div class="buddy-card-header"><div class="buddy-avatar">😊</div><div><div class="buddy-name">${name} (You)</div><div class="buddy-meta">✈️ ${from||'?'} → ${to}${date?' • '+date:''}</div></div></div>${about?`<div style="font-size:13px;color:var(--light);margin-bottom:10px">${about}</div>`:''}<div class="buddy-tags"><span class="buddy-tag">${styleLabels[buddyType]}</span></div><div style="font-size:12px;color:var(--gray);margin-top:8px">📲 ${contact}</div></div>`;}
+    document.getElementById('buddy-results').innerHTML=html;
+  }catch(e){document.getElementById('buddy-results').innerHTML='<div style="color:#f87171;text-align:center;padding:20px">Error. Try again.</div>';}
+  btn.disabled=false;
+}
+
+function setSurpriseMood(m,btn){surpriseMood=m;document.querySelectorAll('.surprise-mood-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+
+async function generateSurpriseTrip(){
+  const from=document.getElementById('surp-from').value.trim()||'anywhere';
+  const budget=document.getElementById('surp-budget').value;
+  const days=document.getElementById('surp-days').value;
+  const btn=document.getElementById('surprise-btn');btn.disabled=true;
+  const result=document.getElementById('surprise-result');result.style.display='block';result.classList.add('visible');
+  document.getElementById('surprise-loading').style.display='block';
+  document.getElementById('surprise-output').style.display='none';
+  const moodLabels={adventure:'adventure & outdoors',beach:'beach & relaxation',city:'city sightseeing',culture:'culture & history',romantic:'romantic getaway',nature:'nature & hiking'};
+  const prompt=`Recommend ONE surprise destination.
+From: ${from}, Budget: $${budget}, Days: ${days}, Mood: ${moodLabels[surpriseMood]}
+
+DESTINATION: [City, Country]
+EMOJI: [emoji]
+TAGLINE: [exciting sentence]
+WHY: [2-3 sentences]
+FLIGHT_COST: [$XX]
+HOTEL_COST: [$XX per night]
+TOTAL_ESTIMATE: [$XXX]
+HIDDEN_GEM: [local tip]`;
+  try{
+    const response=await fetch('/api/plan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
+    const data=await response.json();
+    const text=data.content.map(i=>i.text||'').join('');
+    const dest=text.match(/DESTINATION:\s*(.+)/)?.[1]?.trim()||'Mystery Destination';
+    const emoji=text.match(/EMOJI:\s*(.+)/)?.[1]?.trim()||'🌍';
+    const tagline=text.match(/TAGLINE:\s*(.+)/)?.[1]?.trim()||'Amazing adventure awaits!';
+    const why=text.match(/WHY:\s*(.+?)(?=FLIGHT_COST:|$)/s)?.[1]?.trim()||'';
+    const flightCost=text.match(/FLIGHT_COST:\s*(.+)/)?.[1]?.trim()||'~$200';
+    const hotelCost=text.match(/HOTEL_COST:\s*(.+)/)?.[1]?.trim()||'~$80/night';
+    const total=text.match(/TOTAL_ESTIMATE:\s*(.+)/)?.[1]?.trim()||`~$${budget}`;
+    const hiddenGem=text.match(/HIDDEN_GEM:\s*(.+)/)?.[1]?.trim()||'';
+    const destEnc=encodeURIComponent(dest);const fromEnc=encodeURIComponent(from);
+    document.getElementById('surprise-output').innerHTML=`
+      <div class="surprise-destination">
+        <span style="font-size:70px;display:block;margin-bottom:12px;animation:bounce 1s ease infinite">${emoji}</span>
+        <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:8px">${dest}</div>
+        <div style="font-size:15px;color:#f59e0b;font-weight:600;margin-bottom:10px">${tagline}</div>
+        <div style="font-size:13px;color:var(--light);line-height:1.6;margin-bottom:16px">${why}</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">
+          <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center"><div style="font-size:11px;color:var(--gray);margin-bottom:4px">✈️ Flight</div><div style="font-weight:700;color:#34d186">${flightCost}</div></div>
+          <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center"><div style="font-size:11px;color:var(--gray);margin-bottom:4px">🏨 Hotel</div><div style="font-weight:700;color:#34d186">${hotelCost}</div></div>
+          <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:10px;padding:10px;text-align:center"><div style="font-size:11px;color:var(--gray);margin-bottom:4px">💰 Total</div><div style="font-weight:700;color:#f59e0b">${total}</div></div>
+        </div>
+        ${hiddenGem?`<div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:12px;font-size:12px;color:var(--light);text-align:left">💡 <strong>Tip:</strong> ${hiddenGem}</div>`:''}
+      </div>
+      <div class="surprise-book-btns">
+        <a href="https://www.kiwi.com/en/search/results/${fromEnc}/${destEnc}/${getTomorrow()}/${getNextWeek()}" target="_blank" class="surprise-book-btn">✈️ Find flights — Kiwi.com <span style="margin-left:auto">→</span></a>
+        <a href="https://www.booking.com/searchresults.html?ss=${destEnc}&checkin=${getTomorrow()}&checkout=${getNextWeek()}" target="_blank" class="surprise-book-btn">🏨 Find hotel — Booking.com <span style="margin-left:auto">→</span></a>
+        <a href="https://www.getyourguide.com/s/?q=${destEnc}" target="_blank" class="surprise-book-btn">🎟️ Tours — GetYourGuide <span style="margin-left:auto">→</span></a>
+      </div>
+      <button onclick="document.getElementById('surprise-output').style.display='none';document.getElementById('surprise-loading').style.display='block';generateSurpriseTrip()" style="width:100%;padding:12px;margin-top:10px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:10px;color:#f59e0b;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">🎲 Try another destination</button>`;
+    document.getElementById('surprise-loading').style.display='none';
+    document.getElementById('surprise-output').style.display='block';
+  }catch(e){document.getElementById('surprise-output').innerHTML='<div style="color:#f87171;text-align:center;padding:20px">Error. Try again.</div>';document.getElementById('surprise-loading').style.display='none';document.getElementById('surprise-output').style.display='block';}
+  btn.disabled=false;
+}
+
+async function calculateBudget(){
+  const dest=document.getElementById('budg-dest').value.trim();
+  const days=document.getElementById('budg-days').value;
+  const style=document.getElementById('budg-style').value;
+  if(!dest){alert('Please enter destination');return}
+  const btn=document.getElementById('budg-btn');btn.disabled=true;
+  document.getElementById('budget-result').style.display='block';
+  document.getElementById('budget-result').innerHTML='<div class="weather-loading">⏳ Calculating...</div>';
+  const prompt=`Calculate trip costs for ${dest}, ${days} days, ${style} style.
+FLIGHT: XX
+HOTEL_PER_NIGHT: XX
+FOOD_PER_DAY: XX
+TRANSPORT_PER_DAY: XX
+ACTIVITIES_TOTAL: XX
+MISC_TOTAL: XX
+Numbers only.`;
+  try{
+    const response=await fetch('/api/plan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
+    const data=await response.json();
+    const text=data.content.map(i=>i.text||'').join('');
+    const flight=parseInt(text.match(/FLIGHT:\s*(\d+)/)?.[1])||200;
+    const hotel=parseInt(text.match(/HOTEL_PER_NIGHT:\s*(\d+)/)?.[1])||80;
+    const food=parseInt(text.match(/FOOD_PER_DAY:\s*(\d+)/)?.[1])||30;
+    const transport=parseInt(text.match(/TRANSPORT_PER_DAY:\s*(\d+)/)?.[1])||15;
+    const activities=parseInt(text.match(/ACTIVITIES_TOTAL:\s*(\d+)/)?.[1])||100;
+    const misc=parseInt(text.match(/MISC_TOTAL:\s*(\d+)/)?.[1])||50;
+    const hotelTotal=hotel*parseInt(days);
+    const foodTotal=food*parseInt(days);
+    const transportTotal=transport*parseInt(days);
+    const total=flight+hotelTotal+foodTotal+transportTotal+activities+misc;
+    const destEnc=encodeURIComponent(dest);
+    document.getElementById('budget-result').innerHTML=`
+      <div class="budget-result-box">
+        <div class="cruise-info-title" style="margin-bottom:12px">💰 ${dest.toUpperCase()} — ${days} DAYS</div>
+        <div class="budget-item"><span><span class="budget-item-icon">✈️</span>Flight</span><span class="budget-item-val">$${flight}</span></div>
+        <div class="budget-item"><span><span class="budget-item-icon">🏨</span>Hotel (${days}n × $${hotel})</span><span class="budget-item-val">$${hotelTotal}</span></div>
+        <div class="budget-item"><span><span class="budget-item-icon">🍽️</span>Food (${days}d × $${food})</span><span class="budget-item-val">$${foodTotal}</span></div>
+        <div class="budget-item"><span><span class="budget-item-icon">🚌</span>Transport</span><span class="budget-item-val">$${transportTotal}</span></div>
+        <div class="budget-item"><span><span class="budget-item-icon">🎭</span>Activities</span><span class="budget-item-val">$${activities}</span></div>
+        <div class="budget-item"><span><span class="budget-item-icon">🛍️</span>Miscellaneous</span><span class="budget-item-val">$${misc}</span></div>
+      </div>
+      <div class="budget-total"><span>💰 TOTAL</span><span class="budget-total-val">$${total}</span></div>
+      <div style="font-size:11px;color:var(--gray);margin:10px 0;text-align:center">~$${Math.round(total/parseInt(days))}/day • ${style}</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+        <a href="https://www.kiwi.com/en/search/results/anywhere/${destEnc}/${getTomorrow()}/${getNextWeek()}" target="_blank" class="surprise-book-btn" style="background:rgba(59,130,246,0.08);border-color:rgba(59,130,246,0.2)">✈️ Find flights — from $${flight} <span style="margin-left:auto">→</span></a>
+        <a href="https://www.booking.com/searchresults.html?ss=${destEnc}&checkin=${getTomorrow()}&checkout=${getNextWeek()}" target="_blank" class="surprise-book-btn" style="background:rgba(59,130,246,0.08);border-color:rgba(59,130,246,0.2)">🏨 Find hotel — from $${hotel}/night <span style="margin-left:auto">→</span></a>
+      </div>`;
+  }catch(e){document.getElementById('budget-result').innerHTML='<div style="color:#f87171;text-align:center;padding:20px">Error. Try again.</div>';}
+  btn.disabled=false;
+}
+
+function setNightlifeType(t,btn){nightlifeType=t;document.querySelectorAll('.nightlife-type-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function searchNightlife(){
+  const city=document.getElementById('nightlife-city').value.trim();
+  if(!city){document.getElementById('nightlife-results').innerHTML='<p style="color:var(--gray);text-align:center;padding:16px">Please enter a city</p>';return}
+  const c=encodeURIComponent(city);
+  const typeQ={all:'best bars and clubs',bar:'best bars',club:'best nightclubs',lounge:'best lounge bars',rooftop:'best rooftop bars',cocktail:'best cocktail bars'};
+  const q=encodeURIComponent(typeQ[nightlifeType]+' in '+city);
+  const platforms=[
+    {icon:'🗺️',name:'Google Maps',desc:`Bars & clubs in ${city}`,url:`https://www.google.com/maps/search/${q}`},
+    {icon:'⭐',name:'Yelp',desc:'Ratings & reviews',url:`https://www.yelp.com/search?find_desc=${encodeURIComponent(typeQ[nightlifeType])}&find_loc=${c}`},
+    {icon:'🦉',name:'TripAdvisor',desc:'Best nightlife spots',url:`https://www.tripadvisor.com/Search?q=${encodeURIComponent(city+' '+typeQ[nightlifeType])}`},
+    {icon:'🍸',name:'Foursquare',desc:'Popular with locals',url:`https://foursquare.com/explore?q=${encodeURIComponent(typeQ[nightlifeType])}&near=${c}`},
+    {icon:'🕐',name:'Time Out',desc:'Editorial picks',url:`https://www.timeout.com/search?q=${encodeURIComponent(city+' bars clubs')}`},
+    {icon:'🔍',name:'Google Search',desc:'Search online',url:`https://www.google.com/search?q=best+nightlife+${c}`}
+  ];
+  document.getElementById('nightlife-results').innerHTML=`<div class="results-title">🌙 Nightlife in ${city}</div>`+renderPlatformList(platforms);
+}
+
+function searchFlights(){
+  const from=document.getElementById('f-from').value.trim();const to=document.getElementById('f-to').value.trim();
+  const dep=document.getElementById('f-depart').value;const ret=document.getElementById('f-return').value;
+  const pax=document.getElementById('f-passengers').value;const cls=document.getElementById('f-class').value;
+  if(!from||!to){alert('Please enter departure and destination');return}
+  if(!dep){alert('Please select date');return}
+  const f=encodeURIComponent(from);const t=encodeURIComponent(to);
+  const retPart=flightType==='roundtrip'&&ret?'/'+ret:'';
+  const sites=[
+    `https://www.kiwi.com/en/search/results/${f}/${t}/${dep}${retPart}?passengers=${pax}&cabinClass=${cls}`,
+    `https://www.skyscanner.com/transport/flights/${f}/${t}/${dep.replace(/-/g,'')}/${flightType==='roundtrip'&&ret?ret.replace(/-/g,'')+'/' : ''}?adults=${pax}`,
+    `https://www.google.com/travel/flights?q=flights+from+${f}+to+${t}+on+${encodeURIComponent(dep)}`,
+    `https://www.kayak.com/flights/${f}-${t}/${dep}${flightType==='roundtrip'&&ret?'/'+ret:''}/${pax}adults`,
+    `https://www.momondo.com/flight-search/${f}-${t}/${dep}${flightType==='roundtrip'&&ret?'/'+ret:''}?adults=${pax}`
+  ];
+  sites.forEach((url,i)=>setTimeout(()=>window.open(url,'_blank'),i*350));
+  closeSearchModal('flight-modal');
+}
+
+function searchHotels(){
+  const city=document.getElementById('h-city').value.trim();const ci=document.getElementById('h-checkin').value;
+  const co=document.getElementById('h-checkout').value;const g=document.getElementById('h-guests').value;const r=document.getElementById('h-rooms').value;
+  if(!city){alert('Please enter destination');return}if(!ci||!co){alert('Please select dates');return}
+  const c=encodeURIComponent(city);const sites=[];
+  if(hotelType==='all'||hotelType==='hotel'||hotelType==='luxury'){
+    sites.push(`https://www.booking.com/searchresults.html?ss=${c}&checkin=${ci}&checkout=${co}&group_adults=${g}&no_rooms=${r}`);
+    sites.push(`https://www.hotels.com/search.do?q-destination=${c}&q-check-in=${ci}&q-check-out=${co}&q-rooms=${r}&q-room-0-adults=${g}`);
+    sites.push(`https://www.agoda.com/search?city=${c}&checkIn=${ci}&checkOut=${co}&adults=${g}&rooms=${r}`);
+  }
+  if(hotelType==='all'||hotelType==='airbnb'||hotelType==='apartment')sites.push(`https://www.airbnb.com/s/${c}/homes?checkin=${ci}&checkout=${co}&adults=${g}`);
+  if(hotelType==='all'||hotelType==='hostel')sites.push(`https://www.hostelworld.com/search?search_keywords=${c}&date_from=${ci}&date_to=${co}&number_of_guests=${g}`);
+  sites.forEach((url,i)=>setTimeout(()=>window.open(url,'_blank'),i*350));
+  closeSearchModal('hotel-modal');
+}
+
+const trainDB={
+  europe:{sites:[{icon:'🚄',name:'Omio',url:(f,t,d)=>`https://www.omio.com/app/search-results/trains?origin=${encodeURIComponent(f)}&destination=${encodeURIComponent(t)}&outboundDate=${d}`},{icon:'🚌',name:'FlixBus',url:(f,t)=>`https://www.flixbus.com/bus-tickets/${encodeURIComponent(f.toLowerCase())}-${encodeURIComponent(t.toLowerCase())}`},{icon:'🚄',name:'Eurail',url:()=>'https://www.eurail.com/en/plan-your-trip'},{icon:'🗺️',name:'Rome2rio',url:(f,t)=>`https://www.rome2rio.com/s/${encodeURIComponent(f)}/${encodeURIComponent(t)}`}]},
+  asia:{sites:[{icon:'🚄',name:'12Go Asia',url:(f,t,d)=>`https://12go.asia/en/travel/${encodeURIComponent(f)}/${encodeURIComponent(t)}?date=${d}`},{icon:'🗺️',name:'Rome2rio',url:(f,t)=>`https://www.rome2rio.com/s/${encodeURIComponent(f)}/${encodeURIComponent(t)}`},{icon:'🚄',name:'Japan Rail',url:()=>'https://www.japanrailpass.net/'}]},
+  cis:{sites:[{icon:'🚄',name:'РЖД',url:()=>'https://www.rzd.ru/'},{icon:'🚄',name:'Туту.ру',url:(f,t,d)=>`https://www.tutu.ru/poezda/wizard/?from=${encodeURIComponent(f)}&to=${encodeURIComponent(t)}&when=${d}`},{icon:'🚌',name:'BlaBlaCar',url:()=>'https://www.blablacar.ru/'}]},
+  us:{sites:[{icon:'🚄',name:'Amtrak',url:()=>'https://www.amtrak.com/tickets/departure.html'},{icon:'🚌',name:'Greyhound',url:(f,t)=>`https://www.greyhound.com/en/routes/${encodeURIComponent(f.toLowerCase())}-to-${encodeURIComponent(t.toLowerCase())}`},{icon:'🚌',name:'FlixBus USA',url:()=>'https://www.flixbus.com/bus/usa'}]}
+};
+function updateTrainBadges(r){const el=document.getElementById('train-sites-badges');if(el)el.innerHTML=trainDB[r].sites.map(s=>`<span class="search-site-badge">${s.icon} ${s.name}</span>`).join('')}
+function searchTrains(){
+  const from=document.getElementById('tr-from').value.trim();const to=document.getElementById('tr-to').value.trim();const date=document.getElementById('tr-date').value;
+  if(!from||!to){alert('Please enter departure and destination');return}
+  trainDB[trainRegion].sites.forEach((s,i)=>setTimeout(()=>window.open(s.url(from,to,date),'_blank'),i*350));
+  closeSearchModal('train-modal');
+}
+
+function searchCars(){
+  const city=document.getElementById('car-city').value.trim();const pickup=document.getElementById('car-pickup').value;const ret=document.getElementById('car-return').value;
+  if(!city){alert('Please enter pickup location');return}if(!pickup||!ret){alert('Please select dates');return}
+  const c=encodeURIComponent(city);
+  [`https://www.rentalcars.com/search?dropLoc=${c}&puDay=${pickup}&doDay=${ret}`,`https://www.kayak.com/cars/${c}/${pickup}/${ret}`,`https://www.sixt.com/car-rental/?pickup_location=${c}&pickup_date=${pickup}&return_date=${ret}`,`https://www.hertz.com/rentacar/reservation/?from=${c}&to=${c}&pickupDate=${pickup}&returnDate=${ret}`,`https://www.europcar.com/en-gb/car-hire/${encodeURIComponent(city.toLowerCase())}?pickup=${pickup}&return=${ret}`].forEach((url,i)=>setTimeout(()=>window.open(url,'_blank'),i*350));
+  closeSearchModal('car-modal');
+}
+
+function doRestaurantSearch(){
+  const city=document.getElementById('r-city').value.trim();const cuisine=document.getElementById('r-cuisine').value.trim();
+  if(!city){document.getElementById('restaurant-results').innerHTML='<p style="color:var(--gray);text-align:center;padding:16px">Please enter a city</p>';return}
+  const c=encodeURIComponent(city);const q=encodeURIComponent((cuisine?cuisine+' restaurants':'restaurants')+' in '+city);
+  const platforms=[
+    {icon:'🗺️',name:'Google Maps',desc:`Restaurants in ${city}`,url:`https://www.google.com/maps/search/${q}`},
+    {icon:'📅',name:'OpenTable',desc:'Book a table',url:`https://www.opentable.com/s?covers=2&term=${encodeURIComponent((cuisine||'restaurant')+' '+city)}`},
+    {icon:'⭐',name:'Michelin Guide',desc:'Star-rated restaurants',url:`https://guide.michelin.com/en/restaurants?query=${c}`},
+    {icon:'🍴',name:'TheFork',desc:'Discounts up to 50%',url:`https://www.thefork.com/search?searchQuery=${c}`},
+    {icon:'⭐',name:'Yelp',desc:'Ratings & reviews',url:`https://www.yelp.com/search?find_desc=${encodeURIComponent(cuisine||'restaurants')}&find_loc=${c}`},
+    {icon:'🦉',name:'TripAdvisor',desc:'Traveler reviews',url:`https://www.tripadvisor.com/Search?q=${encodeURIComponent(city+(cuisine?' '+cuisine:''))}#RESTAURANTS`}
+  ];
+  document.getElementById('restaurant-results').innerHTML=`<div class="results-title">Restaurants in ${city}</div>`+renderPlatformList(platforms);
+}
+
+function doSimSearch(){
+  const country=document.getElementById('sim-input').value.trim();
+  if(!country){document.getElementById('sim-results').innerHTML='<p style="color:var(--gray);text-align:center;padding:16px">Please enter country</p>';return}
+  const c=encodeURIComponent(country);
+  const platforms=[
+    {icon:'💾',name:'Airalo',desc:`eSIM for ${country}`,badge:'10-15%',url:`https://www.airalo.com/search?q=${c}`},
+    {icon:'🌐',name:'Holafly',desc:'Unlimited eSIM',url:`https://esim.holafly.com/en/search?query=${c}`},
+    {icon:'📶',name:'Yesim',desc:'eSIM + virtual number',url:`https://yesim.app/en/?country=${c}`},
+    {icon:'📦',name:'SimOptions',desc:'Physical SIM',url:`https://www.simoptions.com/search?q=${c}`},
+    ,{icon:'🌐',name:'eSIM.io',desc:'Pay-as-you-go • 200+ countries',
+url:`https://esim.io`}
+
+  ];
+  document.getElementById('sim-results').innerHTML=`<div class="results-title">SIM/eSIM for ${country}</div>`+renderPlatformList(platforms);
+}
+
+const transportDB={london:{name:'London 🇬🇧',apps:[{icon:'🚕',name:'Uber',type:'Taxi',url:'https://uber.com'},{icon:'🚕',name:'Bolt',type:'Taxi',url:'https://bolt.eu'},{icon:'🚇',name:'TfL Go',type:'Metro & Bus',url:'https://tfl.gov.uk'},{icon:'🗺️',name:'Citymapper',type:'Navigation',url:'https://citymapper.com/london'}]},berlin:{name:'Berlin 🇩🇪',apps:[{icon:'🚕',name:'Uber',type:'Taxi',url:'https://uber.com'},{icon:'🚕',name:'Bolt',type:'Taxi',url:'https://bolt.eu'},{icon:'🚇',name:'BVG',type:'Metro & Bus',url:'https://www.bvg.de'},{icon:'🗺️',name:'Citymapper',type:'Navigation',url:'https://citymapper.com/berlin'}]},paris:{name:'Paris 🇫🇷',apps:[{icon:'🚕',name:'Uber',type:'Taxi',url:'https://uber.com'},{icon:'🚇',name:'RATP',type:'Metro & Bus',url:'https://ratp.fr'},{icon:'🗺️',name:'Citymapper',type:'Navigation',url:'https://citymapper.com/paris'}]},dubai:{name:'Dubai 🇦🇪',apps:[{icon:'🚕',name:'Uber',type:'Taxi',url:'https://uber.com'},{icon:'🚕',name:'Careem',type:'Taxi',url:'https://careem.com'},{icon:'🚇',name:'RTA App',type:'Metro & Bus',url:'https://rta.ae'}]},tokyo:{name:'Tokyo 🇯🇵',apps:[{icon:'🚕',name:'Uber',type:'Taxi',url:'https://uber.com'},{icon:'🚇',name:'Suica',type:'IC Card',url:'https://suica.jp'},{icon:'🚇',name:'Tokyo Metro',type:'Metro',url:'https://tokyometro.jp'}]},istanbul:{name:'Istanbul 🇹🇷',apps:[{icon:'🚕',name:'Uber',type:'Taxi',url:'https://uber.com'},{icon:'🚕',name:'BiTaksi',type:'Taxi',url:'https://bitaksi.com'},{icon:'🚇',name:'İstanbulkart',type:'Metro',url:'https://www.istanbulkart.istanbul'}]},moscow:{name:'Moscow 🇷🇺',apps:[{icon:'🚕',name:'Yandex Go',type:'Taxi',url:'https://go.yandex'},{icon:'🚇',name:'Moscow Metro',type:'Metro',url:'https://mosmetro.ru'}]},newyork:{name:'New York 🇺🇸',apps:[{icon:'🚕',name:'Uber',type:'Taxi',url:'https://uber.com'},{icon:'🚕',name:'Lyft',type:'Taxi',url:'https://lyft.com'},{icon:'🚇',name:'MTA',type:'Subway & Bus',url:'https://new.mta.info'},{icon:'🗺️',name:'Citymapper',type:'Navigation',url:'https://citymapper.com/nyc'}]},baku:{name:'Baku 🇦🇿',apps:[{icon:'🚕',name:'Uber',type:'Taxi',url:'https://uber.com'},{icon:'🚕',name:'Bolt',type:'Taxi',url:'https://bolt.eu'},{icon:'🚕',name:'Tap Taxi',type:'Taxi',url:'https://taptaxi.az'},{icon:'🚇',name:'Bakı Metro',type:'Metro',url:'https://metro.gov.az'}]},warsaw:{name:'Warsaw 🇵🇱',apps:[{icon:'🚕',name:'Uber',type:'Taxi',url:'https://uber.com'},{icon:'🚕',name:'Bolt',type:'Taxi',url:'https://bolt.eu'},{icon:'🚇',name:'ZTM',type:'Metro & Bus',url:'https://www.ztm.waw.pl'}]},default:{name:'Your City 🌍',apps:[{icon:'🚕',name:'Uber',type:'Taxi',url:'https://uber.com'},{icon:'🚕',name:'Bolt',type:'Taxi',url:'https://bolt.eu'},{icon:'🗺️',name:'Google Maps',type:'Navigation',url:'https://maps.google.com'}]}};
+function doTransportSearch(){const city=document.getElementById('transport-input').value.trim();if(!city){document.getElementById('transport-results').innerHTML='<p style="color:var(--gray);text-align:center;padding:16px">Please enter a city</p>';return}const key=city.toLowerCase();const found=Object.keys(transportDB).find(k=>key.includes(k)||k.includes(key.split(' ')[0]))||'default';const d=transportDB[found];document.getElementById('transport-results').innerHTML=`<div class="results-title">Transport in ${d.name}</div>`+renderPlatformList(d.apps)}
+
+function doEventsSearch(){
+  const city=document.getElementById('events-city').value.trim();
+  if(!city){document.getElementById('events-results').innerHTML='<p style="color:var(--gray);text-align:center;padding:16px">Please enter a city</p>';return}
+  const key=city.toLowerCase();const c=encodeURIComponent(city);let sites=[];
+  if(key.includes('london')){sites=[{icon:'🎟️',name:'Ticketmaster UK',desc:'Concerts & theatre',url:`https://www.ticketmaster.co.uk/search?q=${c}`},{icon:'📅',name:'Eventbrite',desc:'Local events',url:'https://www.eventbrite.co.uk/d/united-kingdom--london/events/'},{icon:'🕐',name:'Time Out London',desc:"What's on",url:'https://www.timeout.com/london'}];}
+  else if(key.includes('berlin')){sites=[{icon:'🎟️',name:'Ticketmaster DE',desc:'Events',url:`https://www.ticketmaster.de/search?q=${c}`},{icon:'📅',name:'Eventbrite',desc:'Local events',url:'https://www.eventbrite.de/d/germany--berlin/events/'},{icon:'🌙',name:'Resident Advisor',desc:'Nightlife',url:'https://ra.co/events/de/berlin'}];}
+  else if(key.includes('moscow')){sites=[{icon:'🎟️',name:'Kassir.ru',desc:'Билеты',url:'https://www.kassir.ru/'},{icon:'📅',name:'Afisha.ru',desc:'Куда сходить',url:'https://www.afisha.ru/msk/'}];}
+  else{sites=[{icon:'🎟️',name:'Ticketmaster',desc:'Global events',url:`https://www.ticketmaster.com/search?q=${c}`},{icon:'📅',name:'Eventbrite',desc:'Local events',url:`https://www.eventbrite.com/d/${encodeURIComponent(city.toLowerCase())}/events/`},{icon:'🗺️',name:'Google Events',desc:'Find events',url:`https://www.google.com/search?q=${encodeURIComponent(city+' events')}`},{icon:'🕐',name:'Time Out',desc:"What's on",url:`https://www.timeout.com/search?q=${c}`}];}
+  document.getElementById('events-results').innerHTML=`<div class="results-title">Events in ${city}</div>`+renderPlatformList(sites);
+}
+
+function searchTours(){
+  const dest=document.getElementById('tour-dest').value.trim();
+  if(!dest){document.getElementById('tour-results').innerHTML='<p style="color:var(--gray);text-align:center;padding:16px">Please enter destination</p>';return}
+  const c=encodeURIComponent(dest);
+  const platforms=[
+    {icon:'🎟️',name:'GetYourGuide',desc:`Tours in ${dest}`,badge:'8%',url:`https://www.getyourguide.com/s/?q=${c}&searchSource=1`},
+    {icon:'🌍',name:'Viator',desc:'300,000+ tours',url:`https://www.viator.com/search/${c}?q=${c}`},
+    {icon:'🚌',name:'TourRadar',desc:'Multi-day tours',url:`https://www.tourradar.com/d/${encodeURIComponent(dest.toLowerCase())}`},
+    {icon:'✈️',name:'Expedia',desc:'Tours & packages',url:`https://www.expedia.com/things-to-do/search?location=${c}`},
+    {icon:'🎯',name:'Klook',desc:'Asia & worldwide',url:`https://www.klook.com/en-US/search/?query=${c}`},
+    {icon:'🏨',name:'Booking Attractions',desc:'Attractions',url:`https://www.booking.com/attractions/searchresults/en-gb.html?ss=${c}`}
+  ];
+  document.getElementById('tour-results').innerHTML=`<div class="results-title">Tours in ${dest}</div>`+renderPlatformList(platforms);
+}
+
+const visaDB={turkey:{status:{en:'E-Visa Required',ru:'Требуется электронная виза'},type:'on-arrival',duration:{en:'Up to 90 days',ru:'До 90 дней'},fee:{en:'$51',ru:'$51'},docs:{en:['Valid passport (6 months)','E-Visa from evisa.gov.tr','Return ticket','Hotel booking','Travel insurance'],ru:['Паспорт (6 мес.)','Электронная виза с evisa.gov.tr','Обратный билет','Бронь отеля','Страховка']},airport:{en:'Show e-Visa + passport.',ru:'Электронная виза + паспорт.'},url:'https://www.evisa.gov.tr/'},germany:{status:{en:'Schengen Visa Required',ru:'Требуется Шенгенская виза'},type:'required',duration:{en:'90 days in 180-day period',ru:'90 дней в 180-дневном периоде'},fee:{en:'€80',ru:'€80'},docs:{en:['Valid passport','Schengen application','2 biometric photos','Travel insurance (€30,000+)','Flight & hotel bookings','Bank statement','Employment proof'],ru:['Паспорт','Анкета','2 фото','Страховка','Бронь','Выписка из банка','Справка']},airport:{en:'Show visa + passport.',ru:'Паспорт + виза.'},url:'https://www.auswaertiges-amt.de/'},uae:{status:{en:'Visa on Arrival — Free',ru:'Виза по прилёту — Бесплатно'},type:'free',duration:{en:'30 days',ru:'30 дней'},fee:{en:'Free',ru:'Бесплатно'},docs:{en:['Valid passport (6 months)','Return ticket','Hotel booking'],ru:['Паспорт','Обратный билет','Бронь отеля']},airport:{en:'Biometrics at Dubai airport.',ru:'Биометрия в Дубае.'},url:'https://www.icp.gov.ae/'},uk:{status:{en:'UK Visitor Visa Required',ru:'Требуется виза UK'},type:'required',duration:{en:'Up to 6 months',ru:'До 6 месяцев'},fee:{en:'£115',ru:'£115'},docs:{en:['Valid passport','UK visa application','Biometrics','Bank statements','Employment letter','Bookings'],ru:['Паспорт','Заявка','Биометрия','Выписки банка','Справка','Бронь']},airport:{en:'Border Force checkpoint.',ru:'Пограничный контроль.'},url:'https://www.gov.uk/standard-visitor-visa'},usa:{status:{en:'B-2 Tourist Visa Required',ru:'Требуется виза B-2'},type:'required',duration:{en:'3-6 months',ru:'3-6 месяцев'},fee:{en:'$185',ru:'$185'},docs:{en:['Valid passport','DS-160 form','Embassy appointment','Photo 5x5cm','Bank statements','Employment proof'],ru:['Паспорт','Форма DS-160','Запись в посольство','Фото 5x5','Выписки','Справка']},airport:{en:'CBP officers. Fingerprints & photo.',ru:'Офицеры CBP.'},url:'https://travel.state.gov/'},azerbaijan:{status:{en:'e-Visa Required',ru:'Требуется электронная виза'},type:'on-arrival',duration:{en:'30 days',ru:'30 дней'},fee:{en:'$26',ru:'$26'},docs:{en:['Valid passport','e-Visa from evisa.gov.az','Return ticket','Hotel booking'],ru:['Паспорт','Электронная виза','Обратный билет','Бронь отеля']},airport:{en:'e-Visa + passport at Baku airport.',ru:'Электронная виза + паспорт в Баку.'},url:'https://evisa.gov.az/'}};
+
+function doVisaSearch(){
+  const country=document.getElementById('visa-country').value.trim();
+  if(!country){document.getElementById('visa-results').innerHTML='<p style="color:var(--gray);text-align:center;padding:16px">Please enter a country</p>';return}
+  const key=country.toLowerCase();const isRu=lang==='ru';let found=null;
+  if(key.includes('turk'))found='turkey';
+  else if(key.includes('german')||key.includes('schengen')||key.includes('france')||key.includes('italy')||key.includes('spain'))found='germany';
+  else if(key.includes('uae')||key.includes('dubai')||key.includes('emirates'))found='uae';
+  else if(key.includes('uk')||key.includes('england')||key.includes('britain'))found='uk';
+  else if(key.includes('usa')||key.includes('america'))found='usa';
+  else if(key.includes('azerba')||key.includes('baku'))found='azerbaijan';
+  if(!found){document.getElementById('visa-results').innerHTML=`<div class="visa-info-box">${renderPlatformList([{icon:'🌍',name:'IATA Travel Centre',desc:'Official requirements',url:'https://www.iatatravelcentre.com/'},{icon:'🛂',name:'VisaHQ',desc:'Visa requirements',url:'https://www.visahq.com/'}])}</div>`;return}
+  const v=visaDB[found];const statusClass=v.type==='free'?'free':v.type==='on-arrival'?'on-arrival':'required';const statusIcon=v.type==='free'?'✅':v.type==='on-arrival'?'🟡':'🔴';
+  document.getElementById('visa-results').innerHTML=`<div class="visa-status ${statusClass}">${statusIcon} ${v.status[isRu?'ru':'en']}</div><div class="visa-info-box"><div class="cruise-info-title">📋 DOCUMENTS</div><ul class="visa-doc-list">${v.docs[isRu?'ru':'en'].map(d=>`<li class="visa-doc-item"><span>📄</span><span>${d}</span></li>`).join('')}</ul></div><div class="weather-summary"><div class="weather-summary-row"><span>Duration</span><span class="weather-val">${v.duration[isRu?'ru':'en']}</span></div><div class="weather-summary-row"><span>Fee</span><span class="weather-val">${v.fee[isRu?'ru':'en']}</span></div></div><a href="${v.url}" target="_blank" class="platform-btn"><span class="platform-icon">🌐</span><div class="platform-info"><span class="platform-name">Official Website</span></div><span class="platform-arrow">→</span></a>`;
+}
+
+function getWeatherIcon(code){if(code===0)return'☀️';if(code<=2)return'🌤️';if(code===3)return'☁️';if(code<=48)return'🌫️';if(code<=65)return'🌧️';if(code<=75)return'❄️';if(code<=86)return'🌨️';if(code<=99)return'⛈️';return'🌡️'}
+function getWeatherDesc(code){const d={0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',61:'Light rain',63:'Moderate rain',65:'Heavy rain',71:'Light snow',73:'Moderate snow',75:'Heavy snow',95:'Thunderstorm'};const key=Object.keys(d).reverse().find(k=>code>=parseInt(k));return d[key]||'Unknown'}
+function isWarning(c){return c>=65||(c>=71&&c<=86)||c>=95}
+
+async function doWeatherSearch(){
+  const city=document.getElementById('weather-city').value.trim();
+  if(!city){document.getElementById('weather-results').innerHTML='<p style="color:var(--gray);text-align:center;padding:16px">Please enter a city</p>';return}
+  document.getElementById('weather-results').innerHTML='<div class="weather-loading">⏳ Loading forecast...</div>';
+  try{
+    const gr=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en`);
+    const gd=await gr.json();
+    if(!gd.results?.length){document.getElementById('weather-results').innerHTML='<p style="color:#f87171;text-align:center;padding:16px">City not found</p>';return}
+    const {latitude,longitude,name,country}=gd.results[0];
+    const wr=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,weathercode&timezone=auto&forecast_days=7`);
+    const wd=await wr.json();const d=wd.daily;
+    const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    let warnings=[];d.weathercode.forEach((code,i)=>{if(isWarning(code)){const ds=new Date(d.time[i]).toLocaleDateString('en-GB',{weekday:'short',month:'short',day:'numeric'});warnings.push({code,date:ds,desc:getWeatherDesc(code)})}});
+    let html=`<div style="font-size:16px;font-weight:700;margin-bottom:14px">📍 ${name}, ${country}</div>`;
+    if(warnings.length)warnings.forEach(w=>{html+=`<div class="weather-warning">⚠️ ${w.date} — ${w.desc}</div>`});
+    html+='<div class="weather-grid">';
+    d.time.forEach((date,i)=>{const dt=new Date(date);const dn=i===0?'Today':days[dt.getDay()];html+=`<div class="weather-day${i===0?' today':''}"><div class="weather-day-name">${dn}</div><span class="weather-day-icon">${getWeatherIcon(d.weathercode[i])}</span><div class="weather-day-max">${Math.round(d.temperature_2m_max[i])}°</div><div class="weather-day-min">${Math.round(d.temperature_2m_min[i])}°</div><div class="weather-day-rain">${d.precipitation_sum[i]>0?d.precipitation_sum[i]+'mm':''}</div></div>`});
+    html+='</div>';
+    html+=`<div class="weather-summary"><div class="weather-summary-row"><span>Today</span><span class="weather-val">${getWeatherIcon(d.weathercode[0])} ${getWeatherDesc(d.weathercode[0])}</span></div><div class="weather-summary-row"><span>Max/Min</span><span class="weather-val">${Math.round(d.temperature_2m_max[0])}° / ${Math.round(d.temperature_2m_min[0])}°C</span></div><div class="weather-summary-row"><span>Wind</span><span class="weather-val">${Math.round(d.windspeed_10m_max[0])} km/h</span></div></div>`;
+    document.getElementById('weather-results').innerHTML=html;
+  }catch(e){document.getElementById('weather-results').innerHTML='<p style="color:#f87171;text-align:center;padding:16px">Error loading</p>'}
+}
+
+const cruiseDB={mediterranean:{desc:{en:'Italy, Greece, Spain, Turkey'},ports:{en:['Barcelona 🇪🇸','Rome 🇮🇹','Athens 🇬🇷','Venice 🇮🇹']},how:{en:['Fly to Barcelona or Rome','1 night hotel near port','Board cruise','7-14 day cruise','Return flight']},lines:[{icon:'🚢',name:'MSC Cruises',url:'https://www.msccruises.com/'},{icon:'🚢',name:'Costa Cruises',url:'https://www.costacruises.com/'},{icon:'🚢',name:'Royal Caribbean',url:'https://www.royalcaribbean.com/'}]},caribbean:{desc:{en:'Bahamas, Jamaica, Mexico'},ports:{en:['Miami 🇺🇸','Fort Lauderdale 🇺🇸']},how:{en:['Fly to Miami','Hotel near port','Board cruise','7 day cruise','Return flight']},lines:[{icon:'🚢',name:'Royal Caribbean',url:'https://www.royalcaribbean.com/'},{icon:'🚢',name:'Carnival',url:'https://www.carnival.com/'}]},asia:{desc:{en:'Japan, Thailand, Singapore'},ports:{en:['Singapore 🇸🇬','Tokyo 🇯🇵']},how:{en:['Fly to Singapore','Explore city','Board cruise','10-14 day cruise','Return flight']},lines:[{icon:'🚢',name:'Royal Caribbean',url:'https://www.royalcaribbean.com/'},{icon:'🚢',name:'Princess Cruises',url:'https://www.princess.com/'}]},norway:{desc:{en:'Geiranger, Bergen, Tromsø'},ports:{en:['Bergen 🇳🇴','Southampton 🇬🇧']},how:{en:['Fly to Bergen','Board cruise','7-14 day fjords','Northern Lights','Return flight']},lines:[{icon:'🚢',name:'Hurtigruten',url:'https://www.hurtigruten.com/'},{icon:'🚢',name:'Viking Cruises',url:'https://www.vikingcruises.com/'}]},atlantic:{desc:{en:'New York, Lisbon, Southampton'},ports:{en:['New York 🇺🇸','Southampton 🇬🇧']},how:{en:['Fly to New York','Board ship','12-16 days','Arrive Europe','Return flight']},lines:[{icon:'🚢',name:'Cunard Line',url:'https://www.cunard.com/'},{icon:'🚢',name:'Holland America',url:'https://www.hollandamerica.com/'}]},dubai:{desc:{en:'Dubai, Abu Dhabi, Oman'},ports:{en:['Dubai 🇦🇪','Abu Dhabi 🇦🇪']},how:{en:['Fly to Dubai','1-2 nights','Board cruise','7 day cruise','Return flight']},lines:[{icon:'🚢',name:'MSC Cruises',url:'https://www.msccruises.com/'}]}};
+
+function selectCruiseRegion(r,card){selectedCruiseRegion=r;document.querySelectorAll('.cruise-region-card').forEach(c=>c.classList.remove('active'));card.classList.add('active');renderCruiseInfo(r)}
+function renderCruiseInfo(region){
+  const d=cruiseDB[region];if(!d)return;
+  document.getElementById('cruise-info').innerHTML=`<div class="cruise-info-box"><div class="cruise-info-title">🌍 DESTINATIONS</div><div style="font-size:13px;color:var(--gray);margin-bottom:10px">${d.desc.en}</div><div class="cruise-info-title">⚓ PORTS</div><div class="cruise-ports">${d.ports.en.map(p=>`<span class="cruise-port">${p}</span>`).join('')}</div></div><div class="cruise-how"><div class="cruise-info-title" style="margin-bottom:8px">💡 HOW TO GET THERE</div>${d.how.en.map((s,i)=>`<div class="cruise-how-step"><span class="cruise-how-icon">${['✈️','🏨','🚢','🌊','✈️'][i]||'📍'}</span><span>${s}</span></div>`).join('')}</div><div class="results-title">🚢 CRUISE LINES</div><div class="platform-list">${d.lines.map(l=>`<a href="${l.url}" target="_blank" class="platform-btn"><span class="platform-icon">${l.icon}</span><div class="platform-info"><span class="platform-name">${l.name}</span></div><span class="platform-arrow">→</span></a>`).join('')}</div>`;
+}
+
+async function generateAIPlan(){
+  const from=document.getElementById('ai-from').value.trim();const to=document.getElementById('ai-to').value.trim();
+  const days=document.getElementById('ai-days').value;const budget=document.getElementById('ai-budget').value;
+  const wishes=document.getElementById('ai-wishes').value.trim();
+  if(!to){alert('Please enter destination');return}
+  const btn=document.getElementById('ai-btn');btn.disabled=true;
+  const result=document.getElementById('ai-result');result.style.display='block';result.classList.add('visible');
+  document.getElementById('ai-loading').style.display='block';document.getElementById('ai-plan-output').style.display='none';
+  const tLabels={solo:'solo traveler',couple:'couple',family:'family with children',backpacker:'budget backpacker',luxury:'luxury traveler',foodie:'food lover'};
+  const isRu=lang==='ru';
+  const prompt=isRu?`Ты эксперт-путешественник. Составь подробный план:
+Откуда: ${from||'не указано'}, Куда: ${to}, Дней: ${days}, Бюджет: $${budget}, Тип: ${tLabels[travelerType]}, Пожелания: ${wishes||'нет'}
+Разделы: ## 🗺️ О ${to} ## 💰 Бюджет ## 📅 По дням ## 🍽️ Рестораны ## 🏛️ Достопримечательности ## 🌙 Ночная жизнь ## 🚇 Транспорт ## ⚠️ Советы`
+  :`You are an expert travel planner. Create a detailed plan:
+From: ${from||'not specified'}, To: ${to}, Days: ${days}, Budget: $${budget}, Type: ${tLabels[travelerType]}, Wishes: ${wishes||'none'}
+Sections: ## 🗺️ About ${to} ## 💰 Budget ## 📅 Day-by-day ## 🍽️ Restaurants ## 🏛️ Sights ## 🌙 Nightlife ## 🚇 Transport ## ⚠️ Tips`;
+  const statuses=['Analyzing destination...','Finding restaurants...','Planning itinerary...','Adding nightlife...','Final touches...'];
+  let si=0;const si2=setInterval(()=>{if(si<statuses.length)document.getElementById('ai-loading-status').textContent=statuses[si++]},2000);
+  try{
+    const response=await fetch('/api/plan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
+    clearInterval(si2);
+    const data=await response.json();const text=data.content.map(i=>i.text||'').join('');
+    currentPlanText=text;
+    const dest=encodeURIComponent(to);const fromEnc=encodeURIComponent(from||'');
+    let html='<p>'+text.replace(/##\s(.+)/g,'<h2>$1</h2>').replace(/###\s(.+)/g,'<h3>$1</h3>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n\n/g,'</p><p>').replace(/\n-\s/g,'<br>• ').replace(/\n/g,'<br>')+'</p>';
+    html+=`<div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(109,40,217,0.2)"><div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6d28d9;margin-bottom:12px">🚀 BOOK NOW</div><div style="display:flex;flex-direction:column;gap:8px">
+    <a href="https://www.kiwi.com/en/search/results/${fromEnc}/${dest}/${getTomorrow()}/${getNextWeek()}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:10px;text-decoration:none;color:#fff;font-size:13px;font-weight:600">✈️ Find Flights — Kiwi.com <span style="margin-left:auto">→</span></a>
+    <a href="https://www.booking.com/searchresults.html?ss=${dest}&checkin=${getTomorrow()}&checkout=${getNextWeek()}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:10px;text-decoration:none;color:#fff;font-size:13px;font-weight:600">🏨 Find Hotel — Booking.com <span style="margin-left:auto">→</span></a>
+    <a href="https://www.getyourguide.com/s/?q=${dest}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:10px;text-decoration:none;color:#fff;font-size:13px;font-weight:600">🎟️ Tours — GetYourGuide <span style="margin-left:auto">→</span></a>
+    <a href="https://www.airalo.com/search?q=${dest}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:10px;text-decoration:none;color:#fff;font-size:13px;font-weight:600">📱 eSIM — Airalo <span style="margin-left:auto">→</span></a>
+    </div></div>`;
+    document.getElementById('ai-plan-content').innerHTML=html;
+    document.getElementById('ai-loading').style.display='none';document.getElementById('ai-plan-output').style.display='block';
+  }catch(e){clearInterval(si2);document.getElementById('ai-plan-content').innerHTML='<div style="color:#f87171;text-align:center;padding:20px">Error. Please try again.</div>';document.getElementById('ai-loading').style.display='none';document.getElementById('ai-plan-output').style.display='block';}
+  btn.disabled=false;
+}
+function newPlan(){document.getElementById('ai-result').style.display='none';document.getElementById('ai-result').classList.remove('visible');currentPlanText=''}
+function copyPlan(){navigator.clipboard.writeText(currentPlanText).then(()=>alert('Copied!'))}
+function shareWhatsApp(){window.open('https://wa.me/?text='+encodeURIComponent('My Travora travel plan:\n\n'+currentPlanText.slice(0,500)+'...\n\ntravora.live'),'_blank')}
+function shareTelegram(){window.open('https://t.me/share/url?url=https://travora.live&text='+encodeURIComponent('Check my AI travel plan from Travora!'),'_blank')}
+
+function generateRefCode(name){const clean=name.toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9]/g,'');return clean.substring(0,8)+(Math.floor(Math.random()*900)+100)}
+function copyRefLink(){const link=document.getElementById('ref-link-text').textContent;navigator.clipboard.writeText(link).then(()=>alert('Link copied!'))}
+function copyBloggerLink(){const link=document.getElementById('blogger-ref-link').textContent;navigator.clipboard.writeText(link).then(()=>alert('Link copied!'))}
+
+function renderPlatformList(items){return items.map(a=>`<a href="${a.url}" target="_blank" rel="noopener" class="platform-btn"><span class="platform-icon">${a.icon}</span><div class="platform-info"><span class="platform-name">${a.name}${a.badge?'<span class="sim-badge">'+a.badge+'</span>':''}</span><span class="platform-desc">${a.desc||a.type||''}</span></div><span class="platform-arrow">→</span></a>`).join('')}
+
+function setLang(l){lang=l;document.querySelectorAll('[data-'+l+']').forEach(el=>el.innerHTML=el.getAttribute('data-'+l));document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));renderDeals()}
+function openModal(){document.getElementById('modal').classList.add('active')}
+function closeModal(){document.getElementById('modal').classList.remove('active')}
+function openBloggerModal(){document.getElementById('blogger-modal').classList.add('active');document.getElementById('blogger-form').style.display='flex';document.getElementById('blogger-success').style.display='none'}
+function closeBloggerModal(){document.getElementById('blogger-modal').classList.remove('active')}
+function submitBlogger(){
+  const n=document.getElementById('b-name').value.trim();const e=document.getElementById('b-email').value.trim();
+  const y=document.getElementById('b-youtube').value.trim();const i=document.getElementById('b-instagram').value.trim();
+  if(!n||!e){alert('Please fill name and email');return}if(!y&&!i){alert('Please add at least one social link');return}
+  const code=generateRefCode(n);const refLink=`https://travora.live/?ref=${code}`;
+  document.getElementById('blogger-ref-link').textContent=refLink;
+  document.getElementById('blogger-form').style.display='none';document.getElementById('blogger-success').style.display='block';
+  document.getElementById('ref-link-text').textContent=refLink;document.getElementById('ref-banner').style.display='flex';
+  localStorage.setItem('travora_blogger_ref',refLink);
+}
+function detectLocation(){
+  closeModal();const d=document.getElementById('location-display');d.textContent='Detecting...';
+  if(navigator.geolocation){navigator.geolocation.getCurrentPosition(p=>{fetch('https://nominatim.openstreetmap.org/reverse?lat='+p.coords.latitude+'&lon='+p.coords.longitude+'&format=json').then(r=>r.json()).then(data=>{const city=data.address.city||data.address.town||'';const country=data.address.country||'';d.textContent='📍 '+city+', '+country;window._userCityName=city;window._userCountry=country;['f-from','transport-input','r-city','events-city','weather-city','car-city','tour-dest','tr-from','ai-from','nightlife-city','surp-from','budg-dest','buddy-from'].forEach(id=>{const el=document.getElementById(id);if(el&&!el.value)el.value=city});['sim-input','visa-country'].forEach(id=>{const el=document.getElementById(id);if(el&&!el.value)el.value=country})}).catch(()=>{d.textContent='📍 Location detected'})},()=>{d.textContent='Location denied'})}
+}
+function handleCategory(c){
+  const modals={transport:'transport-modal',restaurants:'restaurant-modal',sim:'sim-modal',events:'events-modal',cruise:'cruise-modal',visa:'visa-modal',weather:'weather-modal',cars:'car-modal',tours:'tours-modal',train:'train-modal',ai:'ai-modal',nightlife:'nightlife-modal',surprise:'surprise-modal',budget:'budget-modal',buddy:'buddy-modal',whereis:'whereis-modal'};
+
+  if(!modals[c])return;
+  document.getElementById(modals[c]).classList.add('active');
+  const cityMap={transport:'transport-input',restaurants:'r-city',events:'events-city',weather:'weather-city',cars:'car-city',tours:'tour-dest',train:'tr-from',ai:'ai-from',nightlife:'nightlife-city',surprise:'surp-from',budget:'budg-dest',buddy:'buddy-from'};
+  if(cityMap[c]&&window._userCityName){const el=document.getElementById(cityMap[c]);if(el&&!el.value)el.value=window._userCityName}
+  if(c==='cruise')renderCruiseInfo(selectedCruiseRegion);
+}
+function openSearchModal(id){
+  document.getElementById(id).classList.add('active');
+  const t1=getTomorrow();const t7=getNextWeek();
+  if(id==='flight-modal'){document.getElementById('f-depart').value=t1;document.getElementById('f-return').value=t7;if(window._userCityName&&!document.getElementById('f-from').value)document.getElementById('f-from').value=window._userCityName}
+  else if(id==='hotel-modal'){document.getElementById('h-checkin').value=t1;document.getElementById('h-checkout').value=t7;if(window._userCityName&&!document.getElementById('h-city').value)document.getElementById('h-city').value=window._userCityName}
+}
+function closeSearchModal(id){document.getElementById(id).classList.remove('active')}
+function setFlightType(t,btn){flightType=t;document.querySelectorAll('.search-tabs .search-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('f-return-field').style.opacity=t==='oneway'?'0.3':'1'}
+function setHotelType(t,btn){hotelType=t;document.querySelectorAll('.hotel-type-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function setEventType(t,btn){eventType=t;document.querySelectorAll('.event-type-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function setCarType(t,btn){carType=t;document.querySelectorAll('.car-type-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function setTravelerType(t,btn){travelerType=t;document.querySelectorAll('.traveler-type-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function setTrainRegion(r,btn){trainRegion=r;document.querySelectorAll('.train-region-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');updateTrainBadges(r)}
+
+let rates={};
+async function loadRates(){try{const r=await fetch('https://api.exchangerate-api.com/v4/latest/USD');const d=await r.json();rates=d.rates;convert();updateQ()}catch{rates={USD:1,EUR:0.92,GBP:0.79,RUB:89.5,AZN:1.70,TRY:32.1,JPY:149.5,CNY:7.24,AED:3.67,PLN:3.98};convert();updateQ();document.getElementById('rate-text').textContent='Approximate rates'}}
+function convert(){const a=parseFloat(document.getElementById('amount-from').value)||0,f=document.getElementById('currency-from').value,t=document.getElementById('currency-to').value;if(!rates[f]||!rates[t])return;document.getElementById('amount-to').value=((a/rates[f])*rates[t]).toFixed(2);document.getElementById('rate-text').textContent='1 '+f+' = '+(rates[t]/rates[f]).toFixed(4)+' '+t}
+function swapCurrencies(){const f=document.getElementById('currency-from'),t=document.getElementById('currency-to'),v=f.value;f.value=t.value;t.value=v;convert()}
+function setQuick(f,t){document.getElementById('currency-from').value=f;document.getElementById('currency-to').value=t;convert()}
+function updateQ(){[['usd-eur','USD','EUR'],['usd-rub','USD','RUB'],['usd-azn','USD','AZN'],['usd-try','USD','TRY'],['eur-gbp','EUR','GBP'],['usd-jpy','USD','JPY']].forEach(([id,f,t])=>{const el=document.getElementById('q-'+id);if(el&&rates[f]&&rates[t])el.textContent=(rates[t]/rates[f]).toFixed(3)})}
+
+window.addEventListener('load',()=>{
+  const c=document.getElementById('particles');
+  for(let i=0;i<26;i++){const p=document.createElement('div');const s=Math.random()*3.2+1.6;p.className='particle';p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;background:rgba(${Math.random()>0.5?'103,232,249':'196,181,253'},${Math.random()*0.35+0.1});animation-duration:${Math.random()*16+9}s;animation-delay:${Math.random()*12}s`;c.appendChild(p)}
+  renderCruiseInfo('mediterranean');updateTrainBadges('europe');renderDeals();
+  document.getElementById('tr-date').value=getTomorrow();
+  document.getElementById('buddy-date').value=getTomorrow();
+  const savedRef=localStorage.getItem('travora_blogger_ref');
+  if(savedRef){document.getElementById('ref-link-text').textContent=savedRef;document.getElementById('ref-banner').style.display='flex';}
+  if(navigator.geolocation){navigator.geolocation.getCurrentPosition(p=>{fetch('https://nominatim.openstreetmap.org/reverse?lat='+p.coords.latitude+'&lon='+p.coords.longitude+'&format=json').then(r=>r.json()).then(data=>{const city=data.address.city||data.address.town||'';const country=data.address.country||'';document.getElementById('location-display').textContent='📍 '+city+', '+country;window._userCityName=city;window._userCountry=country})},()=>{})}
+});
+loadRates(); 
+  // WHERE IS THIS
+let whereisImageBase64 = null;
+
+function handleWhereisUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const result = e.target.result;
+    whereisImageBase64 = result.split(',')[1];
+    document.getElementById('whereis-img').src = result;
+    document.getElementById('whereis-preview').style.display = 'block';
+    document.getElementById('whereis-upload-area').style.display = 'none';
+    document.getElementById('whereis-btn').style.display = 'block';
+    document.getElementById('whereis-results').innerHTML = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+function resetWhereis() {
+  whereisImageBase64 = null;
+  document.getElementById('whereis-img').src = '';
+  document.getElementById('whereis-preview').style.display = 'none';
+  document.getElementById('whereis-upload-area').style.display = 'block';
+  document.getElementById('whereis-btn').style.display = 'none';
+  document.getElementById('whereis-results').innerHTML = '';
+  document.getElementById('whereis-file').value = '';
+}
+
+async function analyzeLocation() {
+  if (!whereisImageBase64) return;
+  const btn = document.getElementById('whereis-btn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Analyzing...';
+  document.getElementById('whereis-results').innerHTML = `
+    <div class="weather-loading">
+      <div style="font-size:32px;margin-bottom:10px">🔍</div>
+      <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Searching the internet...</div>
+      <div style="font-size:12px;color:var(--gray)">Google Vision is analyzing your photo</div>
+    </div>`;
+
+  try {
+    const visionRes = await fetch('/api/vision', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageBase64: whereisImageBase64 })
+    });
+    const visionData = await visionRes.json();
+    const result = visionData.responses?.[0];
+
+    // Yeri tap
+    const landmark = result?.landmarkAnnotations?.[0];
+    const webEntities = result?.webDetection?.webEntities || [];
+    const bestPages = result?.webDetection?.pagesWithMatchingImages || [];
+    const labels = result?.labelAnnotations || [];
+
+    let locationName = null;
+    let confidence = 0;
+    let lat = null, lng = null;
+
+    // 1. Landmark varsa — ən dəqiq
+    if (landmark) {
+      locationName = landmark.description;
+      confidence = Math.round(landmark.score * 100);
+      lat = landmark.locations?.[0]?.latLng?.latitude;
+      lng = landmark.locations?.[0]?.latLng?.longitude;
+    }
+    // 2. Web entity-dən
+    else if (webEntities.length > 0) {
+      const topEntity = webEntities.find(e => e.score > 0.5 && e.description);
+      if (topEntity) {
+        locationName = topEntity.description;
+        confidence = Math.round(topEntity.score * 100);
+      }
+    }
+    // 3. Sayt adından
+    if (!locationName && bestPages.length > 0) {
+      const pageTitle = bestPages[0]?.pageTitle;
+      if (pageTitle) locationName = pageTitle.split('|')[0].split('-')[0].trim();
+    }
+
+    if (!locationName) {
+      // Tapılmadı
+      const labelList = labels.slice(0, 3).map(l => l.description).join(', ');
+      document.getElementById('whereis-results').innerHTML = `
+        <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-radius:14px;padding:20px;text-align:center">
+          <div style="font-size:32px;margin-bottom:10px">🤷</div>
+          <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px">Location not found</div>
+          <div style="font-size:12px;color:var(--gray);margin-bottom:12px">
+            ${labelList ? `Detected: ${labelList}` : 'Try a more famous location'}
+          </div>
+          <div style="font-size:12px;color:var(--gray)">💡 Try photos from Instagram, Pinterest or popular travel sites</div>
+        </div>`;
+      btn.disabled = false;
+      btn.innerHTML = '🔍 Find This Location!';
+      return;
+    }
+
+    // AI ilə məlumat al
+    const prompt = `You found a location: "${locationName}".
+Provide travel info in this EXACT format:
+EMOJI: [flag emoji of country]
+COUNTRY: [country name]
+CITY: [nearest city]
+DESCRIPTION: [2 sentences about this place]
+FLIGHT_FROM: [typical flight origin city]
+FLIGHT_PRICE: [$XXX typical price]
+HOTEL_PRICE: [$XX per night]
+BEST_TIME: [best months to visit]
+TIP: [one local insider tip]`;
+
+    const aiRes = await fetch('/api/plan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    const aiData = await aiRes.json();
+    const aiText = aiData.content.map(i => i.text || '').join('');
+
+    const get = (key) => aiText.match(new RegExp(key + ':\\s*(.+)'))?.[1]?.trim() || '';
+    const emoji = get('EMOJI') || '🌍';
+    const country = get('COUNTRY') || '';
+    const city = get('CITY') || '';
+    const description = get('DESCRIPTION') || '';
+    const flightFrom = get('FLIGHT_FROM') || 'London';
+    const flightPrice = get('FLIGHT_PRICE') || '~$300';
+    const hotelPrice = get('HOTEL_PRICE') || '~$80';
+    const bestTime = get('BEST_TIME') || '';
+    const tip = get('TIP') || '';
+
+    const destEnc = encodeURIComponent(city || locationName);
+    const fromEnc = encodeURIComponent(flightFrom);
+
+    document.getElementById('whereis-results').innerHTML = `
+      <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:16px;padding:20px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          <span style="font-size:44px">${emoji}</span>
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff">${locationName}</div>
+            <div style="font-size:13px;color:#f59e0b;margin-top:2px">${city ? city + ', ' : ''}${country}</div>
+            ${confidence ? `<div style="font-size:11px;color:var(--gray);margin-top:2px">🎯 ${confidence}% match</div>` : ''}
+          </div>
+        </div>
+        ${description ? `<div style="font-size:13px;color:var(--light);line-height:1.7;margin-bottom:14px">${description}</div>` : ''}
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
+          <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:var(--gray);margin-bottom:4px">✈️ Flight</div>
+            <div style="font-weight:700;color:#34d186;font-size:13px">${flightPrice}</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:var(--gray);margin-bottom:4px">🏨 Hotel</div>
+            <div style="font-weight:700;color:#34d186;font-size:13px">${hotelPrice}/night</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:var(--gray);margin-bottom:4px">📅 Best time</div>
+            <div style="font-weight:700;color:#60a5fa;font-size:11px">${bestTime}</div>
+          </div>
+        </div>
+        ${tip ? `<div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:12px;font-size:12px;color:var(--light)">💡 <strong>Tip:</strong> ${tip}</div>` : ''}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <a href="https://www.kiwi.com/en/search/results/${fromEnc}/${destEnc}/${getTomorrow()}/${getNextWeek()}" target="_blank" class="surprise-book-btn">✈️ Find flights to ${city||locationName} <span style="margin-left:auto">→</span></a>
+        <a href="https://www.booking.com/searchresults.html?ss=${destEnc}&checkin=${getTomorrow()}&checkout=${getNextWeek()}" target="_blank" class="surprise-book-btn">🏨 Find hotels in ${city||locationName} <span style="margin-left:auto">→</span></a>
+        <a href="https://www.getyourguide.com/s/?q=${destEnc}" target="_blank" class="surprise-book-btn">🎟️ Tours & activities <span style="margin-left:auto">→</span></a>
+        ${lat && lng ? `<a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" class="surprise-book-btn">🗺️ View on Google Maps <span style="margin-left:auto">→</span></a>` : `<a href="https://www.google.com/maps/search/${destEnc}" target="_blank" class="surprise-book-btn">🗺️ View on Google Maps <span style="margin-left:auto">→</span></a>`}
+      </div>`;
+
+  } catch (e) {
+    document.getElementById('whereis-results').innerHTML = `
+      <div style="color:#f87171;text-align:center;padding:20px">Error. Please try again.</div>`;
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '🔍 Find This Location!';
+}
+
+</script>
+</body>
+</html>
+
