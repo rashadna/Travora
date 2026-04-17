@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Travora — Your World, Your Way</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <style>
 :root{--navy:#080e1a;--deep:#0e1521;--mid:#1a4fa0;--accent:#3b82f6;--bright:#60a5fa;--white:#fff;--gray:#6b7fa3;--light:#a8bdd4}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -368,6 +367,7 @@ footer{padding:44px 24px 24px;border-top:1px solid rgba(255,255,255,0.05)}
 .ref-copy-btn{padding:6px 15px;background:linear-gradient(135deg,#6d28d9,#4338ca);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 </head>
 <body>
 <nav>
@@ -1850,15 +1850,8 @@ TIP: [one local insider tip]`;
 
 </script>
 <script>
-const lenis = new Lenis({
-  duration: 1.6,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smooth: true
-});
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
+const lenis = new Lenis({ duration: 1.6, smooth: true });
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 </script>
 </body>
